@@ -131,7 +131,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         autoScroll: false
                     },{
 						id: "fault_source",
-						title: "Fault Section"
+						title: "Fault Summary"
                     }
                     ]                    
                 }, "map", {
