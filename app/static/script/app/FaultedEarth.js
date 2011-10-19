@@ -116,12 +116,12 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         id: "tree",
                         title: "Layers"
                     }, {
-                        id: 'summary',
+                        id: 'trace',
                         title: "Trace Form",
                         padding: 10
                     }, 
 					{
-						id: 'section',
+						id: 'summary',
 						title: "Neotectonic Section Summary",
 						padding: 10
 					},
@@ -131,7 +131,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         layout: "fit",
                         autoScroll: false
                     },{
-						id: "fault_source",
+						id: "fault",
 						title: "Fault Summary"
                     }
                     ]                    
@@ -208,16 +208,107 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 id: "featureeditor",
                 featureManager: "featuremanager",
                 actionTarget: "summaryform_tooltarget",
-                createFeatureActionText: "Draw",
-                editFeatureActionText: "Modify",
+                //createFeatureActionText: "Draw",
+                //editFeatureActionText: "Modify",
+				snappingAgent: "snapping-agent",
                 outputConfig: {
                     propertyNames: propertyNames
                 }
+            }, 
+
+
+			{
+                ptype: "app_traceform",
+                id: "traceform",
+                featureManager: "featuremanager",
+                featureEditor: "featureeditor",
+                outputTarget: "trace"
             }, {
+                ptype: "gxp_featureeditor",
+                id: "featureeditor",
+                featureManager: "featuremanager",
+                actionTarget: "traceform_tooltarget",
+                createFeatureActionText: "Draw",
+                editFeatureActionText: "Modify",
+				//TODO add Join action here
+				snappingAgent: "snapping-agent",
+                outputConfig: {
+                    propertyNames: propertyNames
+                }
+            },
+
+
+			{
+                ptype: "app_faultform",
+                id: "faultform",
+                featureManager: "featuremanager",
+                featureEditor: "featureeditor",
+                outputTarget: "fault"
+            }, {
+                ptype: "gxp_featureeditor",
+                id: "featureeditor",
+                featureManager: "featuremanager",
+                actionTarget: "faultform_tooltarget",
+                //createFeatureActionText: "Draw",
+                //editFeatureActionText: "Modify",
+				snappingAgent: "snapping-agent",
+                outputConfig: {
+                    propertyNames: propertyNames
+                }
+            },
+
+
+				{
+				ptype: "gxp_tool",
+				id: "featureselector",
+				featureManager: "featuremanager",
+				actionTarget: "summaryform_tooltarget",
+			}, {
+				ptype: "gxp_wmsgetfeatureinfo",
+				outputConfig: {
+				        width: 400
+				    }
+			},{
                 ptype: "app_observations",
                 featureManager: "featuremanager",
                 outputTarget: "observations"
-            }]
+            },
+			{
+	            ptype: "gxp_zoomtoextent",
+	            actionTarget: "map.tbar"
+	        }, {
+	            ptype: "gxp_zoom",
+	            actionTarget: "map.tbar"
+	        }, {
+	            ptype: "gxp_navigationhistory",
+	            actionTarget: "map.tbar"
+	        }, {
+			    ptype: "gxp_featuremanager",
+			    id: "trace_manager",
+			    paging: false,
+			    layer: {
+			        source: "local",
+			        name: "geonode:trace"
+			    }
+			},
+			//working here, maybe this needs OpenLayers.Control?
+			{
+				ptype: "gxp_tool",
+				featureManager: "trace_manager",
+				actionTarget: "map.tbar",
+				autoLoadFeatures: true,
+				targets: [{
+			        source: "local",
+			        name: "geonode:fault_summary"
+		 			}]
+			},{
+			    ptype: "gxp_snappingagent",
+			    id: "snapping-agent",
+			    targets: [{
+			        source: "local",
+			        name: "geonode:fault_summary"
+		 			}]
+			}]
         });
 
         FaultedEarth.superclass.constructor.apply(this, arguments);

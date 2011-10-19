@@ -2,9 +2,9 @@
  * @requires FaultedEarth.js
  */
 
-FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
+FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
     
-    ptype: "app_summaryform",
+    ptype: "app_faultform",
     
     /** api: config[featureManager]
      *  ``String`` id of the FeatureManager to add uploaded features to
@@ -34,7 +34,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
     autoActivate: false,
     
     init: function(target) {
-        FaultedEarth.SummaryForm.superclass.init.apply(this, arguments);
+        FaultedEarth.FaultForm.superclass.init.apply(this, arguments);
         
         this.sessionFids = [];
         var featureManager = target.tools[this.featureManager];
@@ -43,13 +43,13 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 if (!e.feature.fid) {
                     return;
                 }
-                if (featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
-                    this.target.summaryId = e.feature.fid;
+                if (featureManager.layerRecord.get("name") == "geonode:fault_view") {
+                    this.target.faultId = e.feature.fid;
                 }
             },
             "featureunselected": function(e) {
-                if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
-                    this.target.summaryId = null;
+                if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_view") {
+                    this.target.faultId = null;
                 }
             },
             scope: this
@@ -57,7 +57,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
     },
     
     addOutput: function(config) {
-        return FaultedEarth.SummaryForm.superclass.addOutput.call(this, {
+        return FaultedEarth.FaultForm.superclass.addOutput.call(this, {
             xtype: "form",
             labelWidth: 110,
             defaults: {
@@ -69,7 +69,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "Join traces to create a fault section...<br></br><b>Select a fault section in the grid</b> at the bottom of the page to <b>add observations</b>. Filter the grid with the options below."
+                html: "Join fault sections to create a fault...<br></br> Filter the grid with the options below."
             }, {
                 xtype: "textfield",
                 ref: "nameContains",
@@ -102,12 +102,12 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
     },
     
     activate: function() {
-        if (FaultedEarth.SummaryForm.superclass.activate.apply(this, arguments)) {
+        if (FaultedEarth.FaultForm.superclass.activate.apply(this, arguments)) {
             var featureManager = this.target.tools[this.featureManager];
             featureManager.setLayer();
             if (!this.layerRecord) {
                 this.target.createLayerRecord({
-                    name: "geonode:fault_section_view",
+                    name: "geonode:fault_view",
                     source: "local"
                 }, function(record) {
                     this.layerRecord = record;
@@ -134,8 +134,8 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                         }
                     },
                     "load": function() {
-                        this.target.summaryId && window.setTimeout((function() {
-                            var feature = mgr.featureLayer.getFeatureByFid(this.target.summaryId);
+                        this.target.faultId && window.setTimeout((function() {
+                            var feature = mgr.featureLayer.getFeatureByFid(this.target.faultId);
                             if (feature && feature.layer.selectedFeatures.indexOf(feature) == -1) {
                                 feature.layer.selectedFeatures.push(feature);
                                 feature.layer.events.triggerEvent("featureselected", {feature: feature});
@@ -149,7 +149,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
     },
     
     deactivate: function() {
-        if (FaultedEarth.SummaryForm.superclass.deactivate.apply(this, arguments)) {
+        if (FaultedEarth.FaultForm.superclass.deactivate.apply(this, arguments)) {
             this.target.tools[this.featureManager].featureStore.un("save", this.monitorSave, this);
         }
     },
@@ -181,4 +181,4 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
    
 });
 
-Ext.preg(FaultedEarth.SummaryForm.prototype.ptype, FaultedEarth.SummaryForm);
+Ext.preg(FaultedEarth.FaultForm.prototype.ptype, FaultedEarth.FaultForm);
