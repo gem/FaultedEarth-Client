@@ -43,12 +43,12 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 if (!e.feature.fid) {
                     return;
                 }
-                if (featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
+                if (featureManager.layerRecord.get("name") == "geonode:fault_summary") {
                     this.target.summaryId = e.feature.fid;
                 }
             },
             "featureunselected": function(e) {
-                if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
+                if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_summary") {
                     this.target.summaryId = null;
                 }
             },
@@ -64,12 +64,43 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 anchor: "100%"
             },
             items: [{
+                xtype: "container",
+                layout: "hbox",
+                cls: "composite-wrap",
+                fieldLabel: "Create or edit a trace",
+                items: [{
+                    id: this.id + "_tooltarget",
+                    xtype: "container",
+                    cls: "toolbar-spaced",
+                    layout: "toolbar"
+                }]
+            }, {
+                xtype: "container",
+                layout: "hbox",
+                cls: "composite-wrap",
+                fieldLabel: "Upload a trace",
+                items: [{
+                    xtype: "button",
+                    text: "Import",
+                    iconCls: "icon-import",
+                    handler: function() {
+                        var featureManager = this.target.tools[this.featureManager];
+                        if (this.output[0].newFeaturesOnly.getValue()) {
+                            featureManager.on("clearfeatures", this.showUploadWindow, this, {single: true});
+                            featureManager.clearFeatures();
+                        } else {
+                            this.showUploadWindow();
+                        }
+                    },
+                    scope: this
+                }]
+            }, {
                 xtype: "box",
                 autoEl: {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "Join traces to create a fault section...<br></br><b>Select a fault section in the grid</b> at the bottom of the page to <b>add observations</b>. Filter the grid with the options below."
+                html: "<b>Select a trace in the grid</b> at the bottom of the page to <b>add observations</b>. Filter the grid with the options below."
             }, {
                 xtype: "textfield",
                 ref: "nameContains",
@@ -107,7 +138,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
             featureManager.setLayer();
             if (!this.layerRecord) {
                 this.target.createLayerRecord({
-                    name: "geonode:fault_section_view",
+                    name: "geonode:fault_summary",
                     source: "local"
                 }, function(record) {
                     this.layerRecord = record;
@@ -178,7 +209,112 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
         }
         this.target.tools[this.featureManager].loadFeatures(filter);
     },
-   
+    
+    showUploadWindow: function() {
+        var uploadWindow = new Ext.Window({
+            title: "Import Faults",
+            width: 250,
+            autoHeight: true,
+            modal: true,
+            items: [{
+                xtype: "form",
+                ref: "form",
+                padding: 10,
+                border: false,
+                autoHeight: true,
+                labelWidth: 40,
+                defaults: {
+                    anchor: "100%"
+                },
+                items: [{
+                    xtype: "box",
+                    autoEl: {
+                        tag: "p",
+                        cls: "x-form-item"
+                    },
+                    html: "<b>Select a zipped shapefile for uploading.</b> The shapefile needs to have a line geometry."
+                }, {
+                    xtype: "fileuploadfield",
+                    ref: "fileField",
+                    fieldLabel: "File",
+                    allowBlank: false,
+                    listeners: {
+                        "fileselected": function(field, file) {
+                            field.ownerCt.uploadButton.enable();
+                        }
+                    }
+                }],
+                buttonAlign: "center",
+                buttons: [{
+                    text: "Upload",
+                    ref: "../uploadButton",
+                    disabled: true,
+                    handler: function() {
+                        var file = uploadWindow.form.fileField.fileInput.dom.files[0];
+                        Ext.Ajax.request({
+                            method: "PUT",
+                            url: this.target.localGeoServerUrl + "rest/workspaces/" +
+                                this.temporaryWorkspace + "/datastores/" +
+                                file.fileName + "/file.shp?update=overwrite",
+                            xmlData: file,
+                            headers: {
+                                "Content-Type": file.fileName.split(".").pop().toLowerCase() == "zip" ?
+                                    "application/zip" : file.type
+                            },
+                            success: this.handleUpload.createDelegate(this,
+                                [file.fileName, uploadWindow], true),
+                            scope: this
+                        });
+                    },
+                    scope: this
+                }]
+            }]
+        });
+        uploadWindow.show();
+    },
+
+    handleUpload: function(response, options, fileName, uploadWindow) {
+        uploadWindow.close();
+        var fileParts = fileName.split(".");
+        fileParts.pop();
+        var layerName = fileParts.join("");
+        new OpenLayers.Protocol.WFS({
+            version: "1.1.0",
+            srsName: this.target.mapPanel.map.getProjectionObject().getCode(),
+            url: this.target.localGeoServerUrl + "wfs",
+            featureType: layerName,
+            featureNS: this.temporaryWorkspaceNamespaceUri,
+            outputFormat: "GML2"
+        }).read({
+            callback: function(response) {
+                var extent = new OpenLayers.Bounds();
+                var features = response.features, feature, date;
+                for (var i=features.length-1; i>=0; --i) {
+                    feature = features[i];
+                    extent.extend(feature.geometry.getBounds());
+                    feature.fid = null;
+                    feature.state = OpenLayers.State.INSERT;
+                    // convert dates
+                    for (var a in feature.attributes) {
+                        date = Date.parseDate(feature.attributes[a], "Y/m/d");
+                        if (date) {
+                            feature.attributes[a] = date.format("c");
+                        }
+                    }
+                }
+                var featureManager = this.target.tools[this.featureManager];
+                featureManager.featureLayer.addFeatures(features);
+                featureManager.featureStore.save();
+                
+                var featureEditor = this.target.tools[this.featureEditor];
+                featureEditor.actions[1].control.activate();
+                this.target.mapPanel.map.zoomToExtent(extent);
+            },
+            scope: this
+        });
+        //TODO remove uploaded layer/store/style or call GeoNode updatelayers
+    }
+    
 });
 
 Ext.preg(FaultedEarth.SummaryForm.prototype.ptype, FaultedEarth.SummaryForm);

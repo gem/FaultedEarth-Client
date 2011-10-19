@@ -208,8 +208,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 id: "featureeditor",
                 featureManager: "featuremanager",
                 actionTarget: "summaryform_tooltarget",
-                //createFeatureActionText: "Draw",
-                //editFeatureActionText: "Modify",
+                createFeatureActionText: "Draw",
+                editFeatureActionText: "Modify",
 				snappingAgent: "snapping-agent",
                 outputConfig: {
                     propertyNames: propertyNames
@@ -299,14 +299,14 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
 				autoLoadFeatures: true,
 				targets: [{
 			        source: "local",
-			        name: "geonode:fault_summary"
+			        name: "geonode:trace"
 		 			}]
 			},{
 			    ptype: "gxp_snappingagent",
 			    id: "snapping-agent",
 			    targets: [{
 			        source: "local",
-			        name: "geonode:fault_summary"
+			        name: "geonode:trace"
 		 			}]
 			}]
         });
