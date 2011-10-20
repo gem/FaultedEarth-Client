@@ -67,34 +67,14 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
-                fieldLabel: "Create or edit a trace",
+                fieldLabel: "Join traces to create a fault section...",
                 items: [{
                     id: this.id + "_tooltarget",
                     xtype: "container",
                     cls: "toolbar-spaced",
                     layout: "toolbar"
                 }]
-            }, {
-                xtype: "container",
-                layout: "hbox",
-                cls: "composite-wrap",
-                fieldLabel: "Upload a trace",
-                items: [{
-                    xtype: "button",
-                    text: "Import",
-                    iconCls: "icon-import",
-                    handler: function() {
-                        var featureManager = this.target.tools[this.featureManager];
-                        if (this.output[0].newFeaturesOnly.getValue()) {
-                            featureManager.on("clearfeatures", this.showUploadWindow, this, {single: true});
-                            featureManager.clearFeatures();
-                        } else {
-                            this.showUploadWindow();
-                        }
-                    },
-                    scope: this
-                }]
-            }, {
+            },{
                 xtype: "box",
                 autoEl: {
                     tag: "p",

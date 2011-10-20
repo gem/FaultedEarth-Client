@@ -208,7 +208,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 id: "featureeditor",
                 featureManager: "featuremanager",
                 actionTarget: "summaryform_tooltarget",
-                createFeatureActionText: "Draw",
+                //TODO add Select and Join action here with FeatureEditor.select()
+				createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
 				snappingAgent: "snapping-agent",
                 outputConfig: {
@@ -230,7 +231,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 actionTarget: "traceform_tooltarget",
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
-				//TODO add Join action here
 				snappingAgent: "snapping-agent",
                 outputConfig: {
                     propertyNames: propertyNames
