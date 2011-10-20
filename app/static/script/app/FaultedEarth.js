@@ -179,6 +179,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 alwaysDisplayOnMap: true,
                 displayMode: "selected",
                 featureManager: "featuremanager",
+				selectOnMap: true,
                 outputTarget: "featuregrid",
                 outputConfig: {
                     id: "grid",
@@ -217,7 +218,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 }
             }, 
 
-
+			//featuremanager for trace layer
 			{
                 ptype: "app_traceform",
                 id: "traceform",
@@ -237,7 +238,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 }
             },
 
-
+			//feature manager for fault layer
 			{
                 ptype: "app_faultform",
                 id: "faultform",
