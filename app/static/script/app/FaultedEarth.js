@@ -255,15 +255,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 outputConfig: {
                     propertyNames: propertyNames
                 }
-            },
-
-
-				{
-				ptype: "gxp_tool",
-				id: "featureselector",
-				featureManager: "featuremanager",
-				actionTarget: "summaryform_tooltarget",
-			}, {
+            },{
 				ptype: "gxp_wmsgetfeatureinfo",
 				outputConfig: {
 				        width: 400
@@ -282,26 +274,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
 	        }, {
 	            ptype: "gxp_navigationhistory",
 	            actionTarget: "map.tbar"
-	        }, {
-			    ptype: "gxp_featuremanager",
-			    id: "trace_manager",
-			    paging: false,
-			    layer: {
-			        source: "local",
-			        name: "geonode:trace"
-			    }
-			},
-			//working here, maybe this needs OpenLayers.Control?
-			{
-				ptype: "gxp_tool",
-				featureManager: "trace_manager",
-				actionTarget: "map.tbar",
-				autoLoadFeatures: true,
-				targets: [{
-			        source: "local",
-			        name: "geonode:trace"
-		 			}]
-			},{
+	        },{
 			    ptype: "gxp_snappingagent",
 			    id: "snapping-agent",
 			    targets: [{
