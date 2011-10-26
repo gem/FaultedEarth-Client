@@ -119,7 +119,11 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         id: 'trace',
                         title: "Trace Form",
                         padding: 10
-                    }, 
+                    }, {
+                        id: 'site',
+                        title: "Site Observations Form",
+                        padding: 10
+                    },
 					{
 						id: 'summary',
 						title: "Neotectonic Section Summary",
@@ -232,6 +236,24 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 editFeatureActionText: "Modify",
 				//TODO add Join action here
 				snappingAgent: "snapping-agent",
+                outputConfig: {
+                    propertyNames: propertyNames
+                }
+            },
+
+			{
+                ptype: "app_siteform",
+                id: "siteform",
+                featureManager: "featuremanager",
+                featureEditor: "featureeditor",
+                outputTarget: "site"
+            }, {
+                ptype: "gxp_featureeditor",
+                id: "featureeditor",
+                featureManager: "featuremanager",
+                actionTarget: "siteform_tooltarget",
+                createFeatureActionText: "Draw",
+                editFeatureActionText: "Modify",
                 outputConfig: {
                     propertyNames: propertyNames
                 }

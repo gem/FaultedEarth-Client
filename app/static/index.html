@@ -40,6 +40,8 @@
             Ext.BLANK_IMAGE_URL = "theme/app/img/blank.gif";
             OpenLayers.ImgPath = "externals/openlayers/img/";
             
+
+            
             var app = new FaultedEarth({
                 
                 localGeoServerUrl: "/geoserver/",
@@ -109,6 +111,10 @@
                         title : "Neotectonic Sections"
                     }, {
                         source: "local",
+                        name: "geonode:site_observation",
+                        title : "Site Observations"
+                    },{
+                        source: "local",
                         name: "geonode:trace",
                         title: "Traces",
                         }],
@@ -136,5 +142,6 @@
 	</script>
     </head>
     <body>
+        <span id="showGrid"></span>
     </body>
 </html>
