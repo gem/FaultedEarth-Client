@@ -129,12 +129,12 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
 						title: "Neotectonic Section Summary",
 						padding: 10
 					},
-					{
+					/*{
                         id: 'observations',
                         title: "Observations",
                         layout: "fit",
                         autoScroll: false
-                    },{
+                    },*/{
 						id: "fault",
 						title: "Fault Summary"
                     }
@@ -282,11 +282,11 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
 				outputConfig: {
 				        width: 400
 				    }
-			},{
+			},/*{
                 ptype: "app_observations",
                 featureManager: "featuremanager",
                 outputTarget: "observations"
-            },
+            },*/
 			{
 	            ptype: "gxp_zoomtoextent",
 	            actionTarget: "map.tbar"
