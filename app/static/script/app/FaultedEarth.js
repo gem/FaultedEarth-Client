@@ -73,13 +73,13 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             "notes": "Notes",
             "summary_id": "Fault Section Summary ID",
 			// custom fied names for fault trace form
-			"fault_name": "Fault Name",
+			"section_name": "Fault Section Name",
 			"loc_meth": "Location Method",
 			"scale": "Scale",
 			"accuracy": "Accuracy",
 			"geomor_exp": "Geomorphic Expression",
 			"notes": "Notes",
-			"fault_section_id": "Id"
+			"fault_section_id": "Fault Section Id"
         };
         
         Ext.applyIf(config, {
@@ -182,7 +182,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 ptype: "gxp_featuregrid",
                 alwaysDisplayOnMap: true,
                 selectOnMap: true,
-                displayMode: "all",
+                displayMode: "selected",
                 featureManager: "featuremanager",
                 outputTarget: "featuregrid",
                 outputConfig: {
@@ -216,8 +216,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 id: "featureeditor",
                 featureManager: "featuremanager",
                 actionTarget: "summaryform_tooltarget",
-                createFeatureActionText: "Draw",
-                editFeatureActionText: "Modify",
+                //createFeatureActionText: "Draw",
+                //editFeatureActionText: "Modify",
 				snappingAgent: "snapping-agent",
                 outputConfig: {
                     propertyNames: propertyNames
@@ -238,7 +238,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 actionTarget: "traceform_tooltarget",
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
-				//TODO add Join action here
 				snappingAgent: "snapping-agent",
                 outputConfig: {
                     propertyNames: propertyNames

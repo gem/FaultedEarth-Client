@@ -63,7 +63,8 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
             defaults: {
                 anchor: "100%"
             },
-            items: [{
+            items: [/*{
+				
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
@@ -94,13 +95,13 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     },
                     scope: this
                 }]
-            }, {
+            }, */{
                 xtype: "box",
                 autoEl: {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "<b>Select a trace in the grid</b> at the bottom of the page to <b>add observations</b>. Filter the grid with the options below."
+                //html: "<b>Select a trace in the grid</b> at the bottom of the page to <b>add observations</b>. Filter the grid with the options below."
             }, {
                 xtype: "textfield",
                 ref: "nameContains",
