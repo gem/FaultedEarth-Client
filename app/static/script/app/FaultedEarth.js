@@ -1,6 +1,7 @@
 FaultedEarth = Ext.extend(gxp.Viewer, {
 
-    summaryId: null,
+    legendTabTitle: "Legend",
+	summaryId: null,
     
     constructor: function(config) {
         
@@ -223,6 +224,15 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     propertyNames: propertyNames
                 }
             }, 
+
+			{
+	            ptype: "gxp_legend",
+	            outputTarget: "west",
+	            outputConfig: {
+	                title: this.legendTabTitle,
+	                autoScroll: true
+	            }
+	        },
 
 
 			{
