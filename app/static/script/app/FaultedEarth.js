@@ -224,17 +224,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     propertyNames: propertyNames
                 }
             }, 
-
-			{
-	            ptype: "gxp_legend",
-	            outputTarget: "west",
-	            outputConfig: {
-	                title: this.legendTabTitle,
-	                autoScroll: true
-	            }
-	        },
-
-
 			{
                 ptype: "app_traceform",
                 id: "traceform",
@@ -300,6 +289,19 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 featureManager: "featuremanager",
                 outputTarget: "observations"
             },*/
+			{
+	            ptype: "gxp_legend",
+	            outputTarget: "west",
+	            outputConfig: {
+	                title: this.legendTabTitle,
+	                autoScroll: true
+	            }
+	        },
+			{
+	            ptype: "gxp_measure",
+	            actionTarget: {target: "map.tbar", index: 6},
+	            toggleGroup: "main"
+	        },
 			{
 	            ptype: "gxp_zoomtoextent",
 	            actionTarget: "map.tbar"
