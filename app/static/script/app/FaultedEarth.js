@@ -167,7 +167,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 },
                 actions: [{
                     iconCls: "icon-geoexplorer",
-                    text: "Faulted Earth"
+                    text: "Faulted Earth",
                 }]
             },{
                 ptype: "gxp_layertree",
