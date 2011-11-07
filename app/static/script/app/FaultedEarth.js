@@ -122,7 +122,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         padding: 10
                     }, {
                         id: 'site',
-                        title: "Site Observations Form",
+                        title: "Site Observation Form",
                         padding: 10
                     },
 					{
