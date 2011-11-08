@@ -81,7 +81,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             "geomor_exp": "Geomorphic Expression",
             "notes": "Notes",
             "fault_section_id": "Fault Section Id",
-            "feature": "Feature"
+            "t_feature": "Trace Feature",
+	    "s_feature": "Site Feature"
         };
         
         Ext.applyIf(config, {
