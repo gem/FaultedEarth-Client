@@ -104,7 +104,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             }, {
                 xtype: "container",
                 layout: "hbox",
-                fieldLabel: "Select traces and then Join",
+                fieldLabel: "Join traces",
                 items: [{
                     xtype: "button",
                     text: "Join",
