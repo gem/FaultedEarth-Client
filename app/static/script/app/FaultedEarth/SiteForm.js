@@ -101,23 +101,6 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
                     cls: "x-form-item"
                 },
                 html: "To acociate site observations to a Fault Section,<b> select site observations in the grid or on the map</b> hold down ctl or shift to select multiple site observations. Then click join. Filter the grid with the options below."
-            }, {
-                xtype: "textfield",
-                ref: "nameContains",
-                fieldLabel: "Search for name",
-                validationDelay: 500,
-                listeners: {
-                    "valid": this.updateFilter,
-                    scope: this
-                }
-            }, {
-                xtype: "checkbox",
-                ref: "newFeaturesOnly",
-                hideLabel: true,
-                disabled: true,
-                boxLabel: "Only show grid rows from this session",
-                handler: this.updateFilter,
-                scope: this
             }],
             listeners: {
                 "added": function(cmp, ct) {

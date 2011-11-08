@@ -70,23 +70,6 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
                     cls: "x-form-item"
                 },
                 html: "Join fault sections to create a fault...<br></br> Filter the grid with the options below."
-            }, {
-                xtype: "textfield",
-                ref: "nameContains",
-                fieldLabel: "Search for name",
-                validationDelay: 500,
-                listeners: {
-                    "valid": this.updateFilter,
-                    scope: this
-                }
-            }, {
-                xtype: "checkbox",
-                ref: "newFeaturesOnly",
-                hideLabel: true,
-                disabled: true,
-                boxLabel: "Only show grid rows from this session",
-                handler: this.updateFilter,
-                scope: this
             }],
             listeners: {
                 "added": function(cmp, ct) {
