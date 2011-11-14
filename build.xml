@@ -6,10 +6,10 @@
     </description>
 
     <property name="build" location="build"/>
-    <property name="app.proxy.geoserver" value="http://184.106.119.223/geoserver-geonode-dev/"/>
-    <property name="app.proxy.observations" value="http://184.106.119.223/observations/"/>
+    <property name="app.proxy.geoserver" value="http://localhost/geoserver/"/>
+    <property name="app.proxy.observations" value="http://localhost/observations/"/>
     <property name="app.port" value="8080"/>
-    <property name="app.deploy.geoserver" value="/geoserver-geonode-dev/"/>
+    <property name="app.deploy.geoserver" value="/geoserver/"/>
 
     <target name="init">
 
@@ -89,7 +89,7 @@
         </copy>
         <!-- copy GeoExt resources -->
         <copy todir="${build}/${ant.project.name}/WEB-INF/app/static/externals/geoext/resources">
-            <fileset dir="app/static/externals/GeoExt/resources"/>
+            <fileset dir="app/static/externals/geoext/resources"/>
         </copy>
         <!-- copy gxp resources -->
         <copy todir="${build}/${ant.project.name}/WEB-INF/app/static/externals/gxp/src/theme">
