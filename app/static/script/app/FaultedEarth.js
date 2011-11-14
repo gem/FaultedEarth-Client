@@ -44,6 +44,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             "re_int_min": "Recurrence interval min (yr)",
             "re_int_max": "Recurrence interval max (yr)",
             "re_int_pre": "Recurrence interval pref (yr)",
+            "re_int_com": "Recurrence interval common (yr)",
             "mov_min": "Age of last movement min (yr BP)",
             "mov_max": "Age of last movement max (yr BP)",
             "mov_pref": "Age of last movement pref (yr BP)",
@@ -82,7 +83,20 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             "notes": "Notes",
             "fault_section_id": "Fault Section Id",
             "t_feature": "Trace Feature",
-	    "s_feature": "Site Feature"
+	    "s_feature": "Site Feature",
+	    // custom field names for fault source form
+	    "source_nm": "Fault Source Name",
+	    "width": "Width",
+	    "area": "Area",
+	    "rake_min": "Rake Min",
+	    "rake_max": "Rake Max",
+	    "rake_pref": "Rake Pref",
+	    "rake_com": "Rake Common",
+	    "magnitude": "Magnitude",
+	    "length_min": "Length Min",
+	    "length_max": "Length Max",
+	    "length_pre": "Length Pref"
+
         };
         
         Ext.applyIf(config, {
@@ -138,6 +152,9 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     },*/ {
 			id: "fault",
 			title: "Fault Summary"
+                    }, {
+			id: "source",
+			title: "Fault Source"
                     }]
                 },
 		"map", {
@@ -269,7 +286,24 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 actionTarget: "faultform_tooltarget",
                 //createFeatureActionText: "Draw",
                 //editFeatureActionText: "Modify",
-				snappingAgent: "snapping-agent",
+		snappingAgent: "snapping-agent",
+                outputConfig: {
+                    propertyNames: propertyNames
+                }
+            }, {
+                ptype: "app_sourceform",
+                id: "sourceform",
+                featureManager: "featuremanager",
+                featureEditor: "featureeditor",
+                outputTarget: "source"
+            }, {
+                ptype: "gxp_featureeditor",
+                id: "featureeditor",
+                featureManager: "featuremanager",
+                actionTarget: "sourceform_tooltarget",
+                createFeatureActionText: "Draw",
+                editFeatureActionText: "Modify",
+		snappingAgent: "snapping-agent",
                 outputConfig: {
                     propertyNames: propertyNames
                 }
