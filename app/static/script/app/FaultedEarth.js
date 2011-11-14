@@ -106,6 +106,9 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 xtype: "gx_zoomslider",
                 vertical: true,
                 height: 100
+            },
+            {
+                xtype: "gxp_scaleoverlay"
             }],
             portalItems: [{
                 region: "center",
@@ -336,7 +339,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
 	     }, {
 		ptype: "gxp_navigationhistory",
 		actionTarget: "map.tbar"
-	     },{
+	     }, {
 		ptype: "gxp_snappingagent",
 		id: "snapping-agent",
 		targets: [{
