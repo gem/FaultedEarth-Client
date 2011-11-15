@@ -110,7 +110,24 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
                     text: "Join",
                     iconCls: "icon-layer-switcher",
                     }]
-                }],
+            }, {
+                xtype: "textfield",
+                ref: "nameContains",
+                fieldLabel: "Search for name",
+                validationDelay: 500,
+                listeners: {
+                        "valid": this.updateFilter,
+                        scope: this
+                        }
+            }, {
+                xtype: "checkbox",
+                ref: "newFeaturesOnly",
+                hideLabel: true,
+                disabled: true,
+                boxLabel: "Only show grid rows from this session",
+                handler: this.updateFilter,
+                scope: this
+             }],
             listeners: {
                 "added": function(cmp, ct) {
                     ct.on({
