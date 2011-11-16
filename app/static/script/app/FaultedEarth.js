@@ -85,7 +85,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             "t_feature": "Trace Feature",
 	    "s_feature": "Site Feature",
 	    // custom field names for fault source form
-<<<<<<< HEAD
     	    "source_nm": "Fault Source Name",
     	    "width": "Width",
     	    "area": "Area",
@@ -97,20 +96,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
     	    "length_min": "Length Min",
     	    "length_max": "Length Max",
     	    "length_pre": "Length Pref"
-=======
-	    "source_nm": "Fault Source Name",
-	    "width": "Width",
-	    "area": "Area",
-	    "rake_min": "Rake Min",
-	    "rake_max": "Rake Max",
-	    "rake_pref": "Rake Pref",
-	    "rake_com": "Rake Common",
-	    "magnitude": "Magnitude",
-	    "length_min": "Length Min",
-	    "length_max": "Length Max",
-	    "length_pre": "Length Pref"
-
->>>>>>> c628ea786dd6f969202de0f9954ab0ebce8607bd
         };
         
         Ext.applyIf(config, {
@@ -120,12 +105,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 xtype: "gx_zoomslider",
                 vertical: true,
                 height: 100
-<<<<<<< HEAD
             }, {
-=======
-            },
-            {
->>>>>>> c628ea786dd6f969202de0f9954ab0ebce8607bd
                 xtype: "gxp_scaleoverlay"
             }],
             portalItems: [{
@@ -173,11 +153,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     },*/ {
 			id: "fault",
 			title: "Fault Summary"
-<<<<<<< HEAD
                     },{
-=======
-                    }, {
->>>>>>> c628ea786dd6f969202de0f9954ab0ebce8607bd
 			id: "source",
 			title: "Fault Source"
                     }]
@@ -312,8 +288,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 //createFeatureActionText: "Draw",
                 //editFeatureActionText: "Modify",
 		snappingAgent: "snapping-agent",
-<<<<<<< HEAD
-=======
                 outputConfig: {
                     propertyNames: propertyNames
                 }
@@ -331,7 +305,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
 		snappingAgent: "snapping-agent",
->>>>>>> c628ea786dd6f969202de0f9954ab0ebce8607bd
                 outputConfig: {
                     propertyNames: propertyNames
                 }
