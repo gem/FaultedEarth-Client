@@ -94,6 +94,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                     },
                     scope: this
                 }]
+<<<<<<< HEAD
             }, {
                 xtype: "box",
                 autoEl: {
@@ -128,6 +129,9 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                 handler: this.updateFilter,
                 scope: this
                 }],
+=======
+            }],
+>>>>>>> c628ea786dd6f969202de0f9954ab0ebce8607bd
             listeners: {
                 "added": function(cmp, ct) {
                     ct.on({
