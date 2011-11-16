@@ -291,6 +291,23 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 outputConfig: {
                     propertyNames: propertyNames
                 }
+            }, {
+                ptype: "app_sourceform",
+                id: "sourceform",
+                featureManager: "featuremanager",
+                featureEditor: "featureeditor",
+                outputTarget: "source"
+            }, {
+                ptype: "gxp_featureeditor",
+                id: "featureeditor",
+                featureManager: "featuremanager",
+                actionTarget: "sourceform_tooltarget",
+                createFeatureActionText: "Draw",
+                editFeatureActionText: "Modify",
+		snappingAgent: "snapping-agent",
+                outputConfig: {
+                    propertyNames: propertyNames
+                }
             },{
                 ptype: "app_sourceform",
                 id: "sourceform",
@@ -337,7 +354,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
 	     }, {
 		ptype: "gxp_navigationhistory",
 		actionTarget: "map.tbar"
-	     },{
+	     }, {
 		ptype: "gxp_snappingagent",
 		id: "snapping-agent",
 		targets: [{
