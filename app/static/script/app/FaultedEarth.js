@@ -138,14 +138,14 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         title: "Trace Form",
                         padding: 10
                     }, {
-                        id: 'site',
-                        title: "Site Observation Form",
-                        padding: 10
-                    }, {
 			id: 'summary',
 			title: "Neotectonic Section Summary",
 			padding: 10
-		    },/* {
+		    }, {
+                        id: 'site',
+                        title: "Site Observation Form",
+                        padding: 10
+                    },/* {
                         id: 'observations',
                         title: "Observations",
                         layout: "fit",
