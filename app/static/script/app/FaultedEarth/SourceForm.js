@@ -94,7 +94,41 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                     },
                     scope: this
                 }]
-            }],
+            }, {
+                xtype: "box",
+                autoEl: {
+                        tag: "p",
+                        cls: "x-form-item"
+                        },
+                html: "To create a Fault Section,<b> select traces in the grid or on the map</b> hold down ctl or shift to select multiple traces. Then click join. Filter the grid with the options below."
+            }, {
+                xtype: "container",
+                layout: "hbox",
+                fieldLabel: "Join traces",
+                items: [{
+                        xtype: "button",
+                        text: "Join",
+                        iconCls: "icon-layer-switcher",
+                        }]
+             }, {
+                xtype: "textfield",
+                ref: "nameContains",
+                fieldLabel: "Search for name",
+                validationDelay: 500,
+                listeners: {
+                    "valid": this.updateFilter,
+                    scope: this
+                }
+                }, {
+                xtype: "checkbox",
+                ref: "newFeaturesOnly",
+                hideLabel: true,
+                disabled: true,
+                boxLabel: "Only show grid rows from this session",
+                handler: this.updateFilter,
+                scope: this
+                }],
+
             listeners: {
                 "added": function(cmp, ct) {
                     ct.on({

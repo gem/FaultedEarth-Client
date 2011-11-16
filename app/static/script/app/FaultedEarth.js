@@ -85,18 +85,17 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             "t_feature": "Trace Feature",
 	    "s_feature": "Site Feature",
 	    // custom field names for fault source form
-	    "source_nm": "Fault Source Name",
-	    "width": "Width",
-	    "area": "Area",
-	    "rake_min": "Rake Min",
-	    "rake_max": "Rake Max",
-	    "rake_pref": "Rake Pref",
-	    "rake_com": "Rake Common",
-	    "magnitude": "Magnitude",
-	    "length_min": "Length Min",
-	    "length_max": "Length Max",
-	    "length_pre": "Length Pref"
-
+    	    "source_nm": "Fault Source Name",
+    	    "width": "Width",
+    	    "area": "Area",
+    	    "rake_min": "Rake Min",
+    	    "rake_max": "Rake Max",
+    	    "rake_pref": "Rake Pref",
+    	    "rake_com": "Rake Common",
+    	    "magnitude": "Magnitude",
+    	    "length_min": "Length Min",
+    	    "length_max": "Length Max",
+    	    "length_pre": "Length Pref"
         };
         
         Ext.applyIf(config, {
@@ -106,8 +105,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 xtype: "gx_zoomslider",
                 vertical: true,
                 height: 100
-            },
-            {
+            }, {
                 xtype: "gxp_scaleoverlay"
             }],
             portalItems: [{
@@ -155,7 +153,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     },*/ {
 			id: "fault",
 			title: "Fault Summary"
-                    }, {
+                    },{
 			id: "source",
 			title: "Fault Source"
                     }]
@@ -310,7 +308,24 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 outputConfig: {
                     propertyNames: propertyNames
                 }
+            },{
+                ptype: "app_sourceform",
+                id: "sourceform",
+                featureManager: "featuremanager",
+                featureEditor: "featureeditor",
+                outputTarget: "source"
             }, {
+                ptype: "gxp_featureeditor",
+                id: "featureeditor",
+                featureManager: "featuremanager",
+                actionTarget: "sourceform_tooltarget",
+                createFeatureActionText: "Draw",
+                editFeatureActionText: "Modify",
+		snappingAgent: "snapping-agent",
+                outputConfig: {
+                    propertyNames: propertyNames
+                }
+            },{
 		ptype: "gxp_wmsgetfeatureinfo",
 		outputConfig: {
 		        width: 400
