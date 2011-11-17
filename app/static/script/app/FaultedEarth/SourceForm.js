@@ -63,7 +63,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
             defaults: {
                 anchor: "100%"
             },
-            items: [{
+            items: [/*{
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
@@ -127,7 +127,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                 boxLabel: "Only show grid rows from this session",
                 handler: this.updateFilter,
                 scope: this
-                }],
+                }*/],
 
             listeners: {
                 "added": function(cmp, ct) {
