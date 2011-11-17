@@ -150,7 +150,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         title: "Observations",
                         layout: "fit",
                         autoScroll: false
-                    },*/ {
+                    },*/
+                    {
 			id: "fault",
 			title: "Fault Summary"
                     },{

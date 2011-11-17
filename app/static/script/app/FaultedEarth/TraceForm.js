@@ -45,10 +45,20 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 }
                 if (featureManager.layerRecord.get("name") == "geonode:trace") {
                     this.target.summaryId = e.feature.fid;
+
+                    this.current_trace_url = "/traces/join/" + e.feature.fid.split(".").pop() +
+                        "/trace_id/" + this.target.summaryId.split(".").pop();
+
+
+                } else if (this.target.summaryId) {
+                    this.output[0].ownerCt.enable();
+                    this.current_trace_url = "/traces/new/trace_id/" + this.target.summaryId.split(".").pop()
                 }
+                this.sessionFids.push(this.target.summaryId);
             },
             "featureunselected": function(e) {
                 if (this.active && featureManager.layerRecord.get("name") == "geonode:trace") {
+                    this.sessionFids = [];
                     this.target.summaryId = null;
                 }
             },
@@ -85,6 +95,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     iconCls: "icon-import",
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];
+                        featureManager.loadFeatures()
                         if (this.output[0].newFeaturesOnly.getValue()) {
                             featureManager.on("clearfeatures", this.showUploadWindow, this, {single: true});
                             featureManager.clearFeatures();
@@ -109,6 +120,12 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     xtype: "button",
                     text: "Join",
                     iconCls: "icon-layer-switcher",
+                    handler: function() {
+                        var featureManager = this.target.tools[this.featureManager];
+                        alert(this.sessionFids);
+
+                    },
+                    scope: this
                     }]
              }, {
                 xtype: "textfield",
@@ -218,7 +235,6 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
         }
         this.target.tools[this.featureManager].loadFeatures(filter);
     },
-    
     showUploadWindow: function() {
         var uploadWindow = new Ext.Window({
             title: "Import Faults",
