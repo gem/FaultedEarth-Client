@@ -379,6 +379,12 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 featureManager: "featuremanager",
                 actionTarget: "map.tbar",
                 tooltip: "Zoom to selected closure"
+             },                {
+                ptype: "gxp_googlegeocoder",
+                outputTarget: "paneltbar",
+                outputConfig: {
+                        emptyText: "Search for a location ..."
+                }
              }, {
 		ptype: "gxp_snappingagent",
 		id: "snapping-agent",
