@@ -165,7 +165,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     border: false,
                     height: 200,
                     split: true,
-                    collapseMode: "mini"
+                    collapseMode: "mini",
                 }]
             }],
             
@@ -189,7 +189,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 }]
             },{
                 ptype: "gxp_layertree",
-                outputTarget: "tree"
+                outputTarget: "tree",
             }, {
                 ptype: "gxp_featuremanager",
                 id: "featuremanager",
@@ -209,7 +209,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     propertyNames: propertyNames
                 },
                 controlOptions: {
-                    multiple: true
+                    multiple: true,
                 }
             }, {
                 ptype: "gxp_selectedfeatureactions",
@@ -355,6 +355,11 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
 		ptype: "gxp_navigationhistory",
 		actionTarget: "map.tbar"
 	     }, {
+                ptype: "gxp_zoomtoselectedfeatures",
+                featureManager: "featuremanager",
+                actionTarget: "map.tbar",
+                tooltip: "Zoom to selected closure"
+             }, {
 		ptype: "gxp_snappingagent",
 		id: "snapping-agent",
 		targets: [{
