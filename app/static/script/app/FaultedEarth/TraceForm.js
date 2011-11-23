@@ -100,7 +100,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "To create a Fault Section,<b> select traces in the grid or on the map</b> hold down ctl or shift to select multiple traces. Then click join. Filter the grid with the options below."
+                html: "To create a Neotectonic Section,<b> select traces in the grid or on the map</b> hold down ctl or shift to select multiple records. Then click join. Filter the grid with the options below."
             }, {
                 xtype: "container",
                 layout: "hbox",
