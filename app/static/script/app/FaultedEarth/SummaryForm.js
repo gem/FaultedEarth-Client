@@ -63,45 +63,39 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
             defaults: {
                 anchor: "100%"
             },
-            items: [/*{
-				
-                xtype: "container",
-                layout: "hbox",
-                cls: "composite-wrap",
-                fieldLabel: "Create or edit a trace",
-                items: [{
-                    id: this.id + "_tooltarget",
-                    xtype: "container",
-                    cls: "toolbar-spaced",
-                    layout: "toolbar"
-                }]
-            }, {
-                xtype: "container",
-                layout: "hbox",
-                cls: "composite-wrap",
-                fieldLabel: "Upload a trace",
-                items: [{
-                    xtype: "button",
-                    text: "Import",
-                    iconCls: "icon-import",
-                    handler: function() {
-                        var featureManager = this.target.tools[this.featureManager];
-                        if (this.output[0].newFeaturesOnly.getValue()) {
-                            featureManager.on("clearfeatures", this.showUploadWindow, this, {single: true});
-                            featureManager.clearFeatures();
-                        } else {
-                            this.showUploadWindow();
-                        }
-                    },
-                    scope: this
-                }]
-            }, */{
+            items: [{
                 xtype: "box",
                 autoEl: {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                //html: "<b>Select a trace in the grid</b> at the bottom of the page to <b>add observations</b>. Filter the grid with the options below."
+                html: "To create a <b>Fault,</b> select a record by holding down ctl or shift to select multiple records. Then click join."
+            }, {
+                xtype: "container",
+                layout: "hbox",
+                fieldLabel: "Join traces",
+                items: [{
+                    xtype: "button",
+                    text: "Join",
+                    iconCls: "icon-layer-switcher",
+                    }]
+             }, {
+                xtype: "textfield",
+                ref: "nameContains",
+                fieldLabel: "Search for name",
+                validationDelay: 500,
+                listeners: {
+                        "valid": this.updateFilter,
+                        scope: this
+                }
+             }, {
+                xtype: "checkbox",
+                ref: "newFeaturesOnly",
+                hideLabel: true,
+                disabled: true,
+                boxLabel: "Only show grid rows from this session",
+                handler: this.updateFilter,
+                scope: this
             }],
             listeners: {
                 "added": function(cmp, ct) {
