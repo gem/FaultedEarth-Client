@@ -10,8 +10,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
         // property names for FeatureEditor and FeatureGrid
         var propertyNames = {
             // custom fied names for the fault summary table
-            "name": "Fault Name",
-			"sec_name": "Fault Section Name",
+            "fault_name": "Fault Name",
+            "sec_name": "Fault Section Name",
             "episodi_is": "Episodic behaviour (yes/no)",
             "episodi_ac": "Episodic behaviour (active/inactive)",
             "length": "Length (km, pref, min, max)",
@@ -255,6 +255,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 id: "featureeditor",
                 featureManager: "featuremanager",
                 actionTarget: "traceform_tooltarget",
+                autoLoadFeatures: true,
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
 		snappingAgent: "snapping-agent",
@@ -274,6 +275,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 actionTarget: "siteform_tooltarget",
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
+                snappingAgent: "snapping-agent",
+                autoLoadFeatures: true,
                 outputConfig: {
                     propertyNames: propertyNames
                 }
@@ -291,6 +294,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 //createFeatureActionText: "Draw",
                 //editFeatureActionText: "Modify",
 		snappingAgent: "snapping-agent",
+		autoLoadFeatures: true,
                 outputConfig: {
                     propertyNames: propertyNames
                 }
@@ -308,6 +312,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
 		snappingAgent: "snapping-agent",
+		autoLoadFeatures: true,
                 outputConfig: {
                     propertyNames: propertyNames
                 }
@@ -325,6 +330,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
 		snappingAgent: "snapping-agent",
+		autoLoadFeatures: true,
                 outputConfig: {
                     propertyNames: propertyNames
                 }
@@ -342,6 +348,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
 		snappingAgent: "snapping-agent",
+		autoLoadFeatures: true,
                 outputConfig: {
                     propertyNames: propertyNames
                 }
