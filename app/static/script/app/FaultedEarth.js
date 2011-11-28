@@ -152,10 +152,10 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         autoScroll: false
                     },*/ {
                 		id: "fault",
-                		title: "Fault Summary"
+                		title: "Fault Form"
                     }, {
                 		id: "source_trace",
-                		title: "Fault Source Trace"
+                		title: "Simple Fault Geometry"
                     }, {
                     	id: "source",
                     	title: "Fault Source"
@@ -226,7 +226,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 featureManager: "featuremanager",
                 actionTarget: "summaryform_tooltarget",
                 //createFeatureActionText: "Draw",
-                //editFeatureActionText: "Modify",
+                editFeatureActionText: "Modify",
 				snappingAgent: "snapping-agent",
                 outputConfig: {
                     propertyNames: propertyNames
@@ -279,7 +279,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 featureManager: "featuremanager",
                 actionTarget: "faultform_tooltarget",
                 //createFeatureActionText: "Draw",
-                //editFeatureActionText: "Modify",
+                editFeatureActionText: "Modify",
 		        snappingAgent: "snapping-agent",
 		        autoLoadFeatures: true,
                 outputConfig: {
