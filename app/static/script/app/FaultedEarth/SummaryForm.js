@@ -45,10 +45,13 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 }
                 if (featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
                     this.target.summaryId = e.feature.fid;
+                    this.current_fault_section_url = "/observations/faultsection/join";
                 }
+                this.sessionFids.push(this.target.faultId);
             },
             "featureunselected": function(e) {
                 if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
+                    this.sessionFids = [];
                     this.target.summaryId = null;
                 }
             },
@@ -102,6 +105,58 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     cls: "x-form-item"
                 },
                 //html: "<b>Select a trace in the grid</b> at the bottom of the page to <b>add observations</b>. Filter the grid with the options below."
+                html: "Join fault sections to create a fault...<br></br> Filter the grid with the options below."
+            }, {
+                xtype: "box",
+                autoEl: {
+                    tag: "p",
+                    cls: "x-form-item"
+                },
+                html: "To create a Fault,<b> select the fault sections in the grid or on the map</b> hold down ctl or shift to select multiple traces. Then click join. Filter the grid with the options below."
+            }, {
+                xtype: "container",
+                layout: "hbox",
+                fieldLabel: "Join fault sections",
+                items: [{
+                    xtype: "button",
+                    text: "Join",
+                    iconCls: "icon-layer-switcher",
+                    handler: function() {
+                        var featureManager = this.target.tools[this.featureManager];
+                        Ext.Ajax.request({
+                            method: "PUT",
+                            url: 'http://localhost' + this.current_fault_section_url,
+                            params: Ext.encode(this.sessionFids),
+                            success: function(response, opts) {
+                                alert('Fault created');
+                            },
+                            failure: function(response, opts){
+                                alert('Failed to create the Fault');
+                            },
+
+                            scope: this
+                        });
+
+                    },
+                    scope: this
+                    }]
+            }, {
+                xtype: "textfield",
+                ref: "nameContains",
+                fieldLabel: "Search for name",
+                validationDelay: 500,
+                listeners: {
+                        "valid": this.updateFilter,
+                        scope: this
+                }
+             }, {
+                xtype: "checkbox",
+                ref: "newFeaturesOnly",
+                hideLabel: true,
+                disabled: true,
+                boxLabel: "Only show grid rows from this session",
+                handler: this.updateFilter,
+                scope: this
             }],
             listeners: {
                 "added": function(cmp, ct) {
