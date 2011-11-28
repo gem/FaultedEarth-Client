@@ -43,11 +43,11 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 if (!e.feature.fid) {
                     return;
                 }
-                if (featureManager.layerRecord.get("name") == "geonode:trace") {
+                if (featureManager.layerRecord.get("name") == "geonode:observations_trace") {
                     this.target.summaryId = e.feature.fid;
 
-                    this.current_trace_url = "/traces/join/" + e.feature.fid.split(".").pop() +
-                        "/trace_id/" + this.target.summaryId.split(".").pop();
+                    this.current_trace_url = "/observations/traces/join" /*+ e.feature.fid.split(".").pop() +
+                        "/trace_id/" + this.target.summaryId.split(".").pop();*/
 
 
                 } else if (this.target.summaryId) {
@@ -57,7 +57,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 this.sessionFids.push(this.target.summaryId);
             },
             "featureunselected": function(e) {
-                if (this.active && featureManager.layerRecord.get("name") == "geonode:trace") {
+                if (this.active && featureManager.layerRecord.get("name") == "geonode:observations_trace") {
                     this.sessionFids = [];
                     this.target.summaryId = null;
                 }
@@ -122,7 +122,19 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     iconCls: "icon-layer-switcher",
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];
-                        alert(this.sessionFids);
+                        Ext.Ajax.request({
+                            method: "PUT",
+                            url: 'http://localhost' + this.current_trace_url,
+                            params: Ext.encode(this.sessionFids),
+                            success: function(response, opts) {
+                                alert('Fault Section created');
+                            },
+                            failure: function(response, opts){
+                                alert('Failed to create the Fault Section');
+                            },
+
+                            scope: this
+                        });
 
                     },
                     scope: this
@@ -164,7 +176,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             featureManager.setLayer();
             if (!this.layerRecord) {
                 this.target.createLayerRecord({
-                    name: "geonode:trace",
+                    name: "geonode:observations_trace",
                     source: "local"
                 }, function(record) {
                     this.layerRecord = record;
@@ -175,7 +187,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             }
             this.output[0].newFeaturesOnly.setValue(false);
             this.output[0].nameContains.setValue("");
-            featureManager.on("layerchange", function(mgr, rec) {
+            featureManager.on("layerchange", function(mgr, layer, attr) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
                         var fid;
@@ -283,11 +295,11 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                                 file.fileName + "/file.shp?update=overwrite",
                             xmlData: file,
                             headers: {
-                                "Content-Type": file.fileName.split(".").pop().toLowerCase() == "zip" ?
+                                "Content-Type": file.name.split(".").pop().toLowerCase() == "zip" ?
                                     "application/zip" : file.type
                             },
                             success: this.handleUpload.createDelegate(this,
-                                [file.fileName, uploadWindow], true),
+                                [file.name, uploadWindow], true),
                             scope: this
                         });
                     },
