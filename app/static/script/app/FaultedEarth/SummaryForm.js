@@ -128,7 +128,6 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                             url: 'http://localhost' + this.current_fault_section_url,
                             params: Ext.encode(this.sessionFids),
                             success: function(response, opts) {
-                                alert(this.sessionFids);
                                 alert('Fault created');
                             },
                             failure: function(response, opts){
