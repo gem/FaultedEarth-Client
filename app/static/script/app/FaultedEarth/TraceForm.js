@@ -46,9 +46,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 if (featureManager.layerRecord.get("name") == "geonode:observations_trace") {
                     this.target.summaryId = e.feature.fid;
 
-                    this.current_trace_url = "/observations/traces/join" /*+ e.feature.fid.split(".").pop() +
-                        "/trace_id/" + this.target.summaryId.split(".").pop();*/
-
+                    this.current_trace_url = "/observations/traces/join";
 
                 } else if (this.target.summaryId) {
                     this.output[0].ownerCt.enable();
