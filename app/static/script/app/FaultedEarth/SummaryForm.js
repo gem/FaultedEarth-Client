@@ -44,11 +44,14 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     return;
                 }
                 if (featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
-                    this.target.summaryId = e.feature.fid;
+                    this.target.summaryId = e.feature.attributes.id;
+                    this.current_fault_section_url = "/observations/faultsection/join";
                 }
+                this.sessionFids.push(this.target.summaryId);
             },
             "featureunselected": function(e) {
                 if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
+                    this.sessionFids = [];
                     this.target.summaryId = null;
                 }
             },
@@ -78,8 +81,26 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     xtype: "button",
                     text: "Join",
                     iconCls: "icon-layer-switcher",
+                    handler: function() {
+                        var featureManager = this.target.tools[this.featureManager];
+                        Ext.Ajax.request({
+                            method: "PUT",
+                            url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_fault_section_url,
+                            params: Ext.encode(this.sessionFids),
+                            success: function(response, opts) {
+                                alert('Fault created');
+                            },
+                            failure: function(response, opts){
+                                alert('Failed to create the Fault');
+                            },
+
+                            scope: this
+                        });
+
+                    },
+                    scope: this
                     }]
-             }, {
+            }, {
                 xtype: "textfield",
                 ref: "nameContains",
                 fieldLabel: "Search for name",
