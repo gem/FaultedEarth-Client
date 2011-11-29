@@ -183,7 +183,6 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
-            console.dir(this.target)
             this.output[0].newFeaturesOnly.setValue(false);
             this.output[0].nameContains.setValue("");
             featureManager.on("layerchange", function(mgr, layer, attr) {
