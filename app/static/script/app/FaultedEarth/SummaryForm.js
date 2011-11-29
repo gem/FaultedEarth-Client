@@ -125,7 +125,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                         var featureManager = this.target.tools[this.featureManager];
                         Ext.Ajax.request({
                             method: "PUT",
-                            url: 'http://localhost' + this.current_fault_section_url,
+                            url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_fault_section_url,
                             params: Ext.encode(this.sessionFids),
                             success: function(response, opts) {
                                 alert('Fault created');

@@ -122,7 +122,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                         var featureManager = this.target.tools[this.featureManager];
                         Ext.Ajax.request({
                             method: "PUT",
-                            url: 'http://localhost' + this.current_trace_url,
+                            url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_trace_url,
                             params: Ext.encode(this.sessionFids),
                             success: function(response, opts) {
                                 alert('Fault Section created');
@@ -183,6 +183,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
+            console.dir(this.target)
             this.output[0].newFeaturesOnly.setValue(false);
             this.output[0].nameContains.setValue("");
             featureManager.on("layerchange", function(mgr, layer, attr) {
