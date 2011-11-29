@@ -43,12 +43,12 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
                 if (!e.feature.fid) {
                     return;
                 }
-                if (featureManager.layerRecord.get("name") == "geonode:site_observation") {
+                if (featureManager.layerRecord.get("name") == "geonode:observations_siteobservation") {
                     this.target.summaryId = e.feature.fid;
                 }
             },
             "featureunselected": function(e) {
-                if (this.active && featureManager.layerRecord.get("name") == "geonode:site_observation") {
+                if (this.active && featureManager.layerRecord.get("name") == "geonode:observations_siteobservation") {
                     this.target.summaryId = null;
                 }
             },
@@ -147,7 +147,7 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
             featureManager.setLayer();
             if (!this.layerRecord) {
                 this.target.createLayerRecord({
-                    name: "geonode:site_observation",
+                    name: "geonode:observations_siteobservation",
                     source: "local"
                 }, function(record) {
                     this.layerRecord = record;
