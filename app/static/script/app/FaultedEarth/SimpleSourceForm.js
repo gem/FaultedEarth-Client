@@ -2,9 +2,9 @@
  * @requires FaultedEarth.js
  */
 
-FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
+FaultedEarth.SimpleSourceForm = Ext.extend(gxp.plugins.Tool, {
     
-    ptype: "app_faultform",
+    ptype: "app_source_traceform",
     
     /** api: config[featureManager]
      *  ``String`` id of the FeatureManager to add uploaded features to
@@ -34,7 +34,7 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
     autoActivate: false,
     
     init: function(target) {
-        FaultedEarth.FaultForm.superclass.init.apply(this, arguments);
+        FaultedEarth.SimpleSourceForm.superclass.init.apply(this, arguments);
         
         this.sessionFids = [];
         var featureManager = target.tools[this.featureManager];
@@ -43,12 +43,12 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
                 if (!e.feature.fid) {
                     return;
                 }
-                if (featureManager.layerRecord.get("name") == "geonode:fault_view") {
+                if (featureManager.layerRecord.get("name") == "geonode:fault_source_trace") {
                     this.target.summaryId = e.feature.fid;
                 }
             },
             "featureunselected": function(e) {
-                if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_view") {
+                if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_source_trace") {
                     this.target.summaryId = null;
                 }
             },
@@ -57,29 +57,51 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
     },
     
     addOutput: function(config) {
-        return FaultedEarth.FaultForm.superclass.addOutput.call(this, {
+        return FaultedEarth.SimpleSourceForm.superclass.addOutput.call(this, {
             xtype: "form",
             labelWidth: 110,
             defaults: {
                 anchor: "100%"
             },
             items: [{
+                xtype: "container",
+                layout: "hbox",
+                cls: "composite-wrap",
+                fieldLabel: "Create or edit a fault source trace",
+                items: [{
+                    id: this.id + "_tooltarget",
+                    xtype: "container",
+                    cls: "toolbar-spaced",
+                    layout: "toolbar"
+                }]
+            }, {
+                xtype: "container",
+                layout: "hbox",
+                cls: "composite-wrap",
+                fieldLabel: "Upload a fault source trace",
+                items: [{
+                    xtype: "button",
+                    text: "Import",
+                    iconCls: "icon-import",
+                    handler: function() {
+                        var featureManager = this.target.tools[this.featureManager];
+                        if (this.output[0].newFeaturesOnly.getValue()) {
+                            featureManager.on("clearfeatures", this.showUploadWindow, this, {single: true});
+                            featureManager.clearFeatures();
+                        } else {
+                            this.showUploadWindow();
+                        }
+                    },
+                    scope: this
+                }]
+            }, {
                 xtype: "box",
                 autoEl: {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "To create a <b>Fault Source,</b> select a record by holding down ctl or shift to select multiple traces. Then click join."
+                html: "..."
             }, {
-                xtype: "container",
-                layout: "hbox",
-                fieldLabel: "Join traces",
-                items: [{
-                    xtype: "button",
-                    text: "Join",
-                    iconCls: "icon-layer-switcher",
-                    }]
-             }, {
                 xtype: "textfield",
                 ref: "nameContains",
                 fieldLabel: "Search for name",
@@ -111,12 +133,12 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
     },
     
     activate: function() {
-        if (FaultedEarth.FaultForm.superclass.activate.apply(this, arguments)) {
+        if (FaultedEarth.SimpleSourceForm.superclass.activate.apply(this, arguments)) {
             var featureManager = this.target.tools[this.featureManager];
             featureManager.setLayer();
             if (!this.layerRecord) {
                 this.target.createLayerRecord({
-                    name: "geonode:fault_view",
+                    name: "geonode:fault_source_trace",
                     source: "local"
                 }, function(record) {
                     this.layerRecord = record;
@@ -158,7 +180,7 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
     },
     
     deactivate: function() {
-        if (FaultedEarth.FaultForm.superclass.deactivate.apply(this, arguments)) {
+        if (FaultedEarth.SimpleSourceForm.superclass.deactivate.apply(this, arguments)) {
             this.target.tools[this.featureManager].featureStore.un("save", this.monitorSave, this);
         }
     },
@@ -295,4 +317,4 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
     
 });
 
-Ext.preg(FaultedEarth.FaultForm.prototype.ptype, FaultedEarth.FaultForm);
+Ext.preg(FaultedEarth.SimpleSourceForm.prototype.ptype, FaultedEarth.SimpleSourceForm);
