@@ -45,6 +45,8 @@
             var app = new FaultedEarth({
                 
                 localGeoServerUrl: "/geoserver/",
+                localGeoNodeUrl: window.location.href + "proxy/?url=",
+                localHostname: 'http://' + window.location.hostname,
                                 
                 defaultSourceType: "gxp_wmscsource",
                 sources: {
