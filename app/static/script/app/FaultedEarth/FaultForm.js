@@ -43,12 +43,12 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
                 if (!e.feature.fid) {
                     return;
                 }
-                if (featureManager.layerRecord.get("name") == "geonode:fault_view") {
+                if (featureManager.layerRecord.get("name") == "geonode:simple_geom_view") {
                     this.target.summaryId = e.feature.fid;
                 }
             },
             "featureunselected": function(e) {
-                if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_view") {
+                if (this.active && featureManager.layerRecord.get("name") == "geonode:simple_geom_view") {
                     this.target.summaryId = null;
                 }
             },
@@ -69,17 +69,25 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "To create a <b>Fault Source,</b> select a record by holding down ctl or shift to select multiple traces. Then click join."
+                html: "Use the modify button to fill in the attributes for a fault"
             }, {
                 xtype: "container",
                 layout: "hbox",
-                fieldLabel: "Join traces",
+                cls: "composite-wrap",
+                fieldLabel: "Modify a fault",
                 items: [{
-                    xtype: "button",
-                    text: "Join",
-                    iconCls: "icon-layer-switcher",
-                    }]
-             }, {
+                    id: this.id + "_tooltarget",
+                    xtype: "container",
+                    cls: "toolbar-spaced",
+                    layout: "toolbar"
+                }]
+            }, {
+                xtype: "box",
+                autoEl: {
+                    tag: "p",
+                    cls: "x-form-item"
+                },
+            }, {
                 xtype: "textfield",
                 ref: "nameContains",
                 fieldLabel: "Search for name",
@@ -116,7 +124,7 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
             featureManager.setLayer();
             if (!this.layerRecord) {
                 this.target.createLayerRecord({
-                    name: "geonode:fault_view",
+                    name: "geonode:simple_geom_view",
                     source: "local"
                 }, function(record) {
                     this.layerRecord = record;

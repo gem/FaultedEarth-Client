@@ -43,12 +43,12 @@ FaultedEarth.SimpleSourceForm = Ext.extend(gxp.plugins.Tool, {
                 if (!e.feature.fid) {
                     return;
                 }
-                if (featureManager.layerRecord.get("name") == "geonode:fault_source_trace") {
+                if (featureManager.layerRecord.get("name") == "geonode:simple_geom_view") {
                     this.target.summaryId = e.feature.fid;
                 }
             },
             "featureunselected": function(e) {
-                if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_source_trace") {
+                if (this.active && featureManager.layerRecord.get("name") == "geonode:simple_geom_view") {
                     this.target.summaryId = null;
                 }
             },
@@ -64,6 +64,13 @@ FaultedEarth.SimpleSourceForm = Ext.extend(gxp.plugins.Tool, {
                 anchor: "100%"
             },
             items: [{
+                xtype: "box",
+                autoEl: {
+                    tag: "p",
+                    cls: "x-form-item"
+                },
+                html: "Select a fault from the grid below, then use the draw or modify button to create a simplified geometry that will be used to create a fault source" 
+            },{
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
@@ -75,32 +82,12 @@ FaultedEarth.SimpleSourceForm = Ext.extend(gxp.plugins.Tool, {
                     layout: "toolbar"
                 }]
             }, {
-                xtype: "container",
-                layout: "hbox",
-                cls: "composite-wrap",
-                fieldLabel: "Upload a fault source trace",
-                items: [{
-                    xtype: "button",
-                    text: "Import",
-                    iconCls: "icon-import",
-                    handler: function() {
-                        var featureManager = this.target.tools[this.featureManager];
-                        if (this.output[0].newFeaturesOnly.getValue()) {
-                            featureManager.on("clearfeatures", this.showUploadWindow, this, {single: true});
-                            featureManager.clearFeatures();
-                        } else {
-                            this.showUploadWindow();
-                        }
-                    },
-                    scope: this
-                }]
-            }, {
                 xtype: "box",
                 autoEl: {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "..."
+                html: "Once a fault has the required attributes, and simplified geometry, select a fault from the grid and use the 'generate' button to calculate a fault source."
             }, {
                 xtype: "textfield",
                 ref: "nameContains",
@@ -118,7 +105,16 @@ FaultedEarth.SimpleSourceForm = Ext.extend(gxp.plugins.Tool, {
                 boxLabel: "Only show grid rows from this session",
                 handler: this.updateFilter,
                 scope: this
-            }],
+            }, {
+                xtype: "container",
+                layout: "hbox",
+                fieldLabel: "Generate Fault Source",
+                items: [{
+                    xtype: "button",
+                    text: "Generate",
+                    iconCls: "icon-layer-switcher",
+                    }]
+             }],
             listeners: {
                 "added": function(cmp, ct) {
                     ct.on({
@@ -138,7 +134,7 @@ FaultedEarth.SimpleSourceForm = Ext.extend(gxp.plugins.Tool, {
             featureManager.setLayer();
             if (!this.layerRecord) {
                 this.target.createLayerRecord({
-                    name: "geonode:fault_source_trace",
+                    name: "geonode:simple_geom_view",
                     source: "local"
                 }, function(record) {
                     this.layerRecord = record;
