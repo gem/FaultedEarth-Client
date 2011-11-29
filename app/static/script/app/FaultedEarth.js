@@ -267,7 +267,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 outputConfig: {
                     propertyNames: propertyNames
                 }
-            }, {
+            },/* {
                 ptype: "app_faultform",
                 id: "faultform",
                 featureManager: "featuremanager",
@@ -285,8 +285,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 outputConfig: {
                     propertyNames: propertyNames
                 }
-            }, {
-                ptype: "app_source_traceform",
+            }, */{
+                ptype: "app_sourceform",
                 id: "source_traceform",
                 featureManager: "featuremanager",
                 featureEditor: "featureeditor",
