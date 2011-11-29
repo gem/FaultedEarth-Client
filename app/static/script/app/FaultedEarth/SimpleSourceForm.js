@@ -43,12 +43,12 @@ FaultedEarth.SimpleSourceForm = Ext.extend(gxp.plugins.Tool, {
                 if (!e.feature.fid) {
                     return;
                 }
-                if (featureManager.layerRecord.get("name") == "geonode:fault_source_trace") {
+                if (featureManager.layerRecord.get("name") == "geonode:simple_geom_view") {
                     this.target.summaryId = e.feature.fid;
                 }
             },
             "featureunselected": function(e) {
-                if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_source_trace") {
+                if (this.active && featureManager.layerRecord.get("name") == "geonode:simple_geom_view") {
                     this.target.summaryId = null;
                 }
             },
@@ -138,7 +138,7 @@ FaultedEarth.SimpleSourceForm = Ext.extend(gxp.plugins.Tool, {
             featureManager.setLayer();
             if (!this.layerRecord) {
                 this.target.createLayerRecord({
-                    name: "geonode:fault_source_trace",
+                    name: "geonode:simple_geom_view",
                     source: "local"
                 }, function(record) {
                     this.layerRecord = record;
