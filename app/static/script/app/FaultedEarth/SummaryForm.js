@@ -76,7 +76,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
             }, {
                 xtype: "container",
                 layout: "hbox",
-                fieldLabel: "Join traces",
+                fieldLabel: "Join sections",
                 items: [{
                     xtype: "button",
                     text: "Join",
