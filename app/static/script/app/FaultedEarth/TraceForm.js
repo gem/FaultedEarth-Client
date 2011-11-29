@@ -43,12 +43,20 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 if (!e.feature.fid) {
                     return;
                 }
-                if (featureManager.layerRecord.get("name") == "geonode:trace") {
+                if (featureManager.layerRecord.get("name") == "geonode:observations_trace") {
                     this.target.summaryId = e.feature.fid;
+
+                    this.current_trace_url = "/observations/traces/join";
+
+                } else if (this.target.summaryId) {
+                    this.output[0].ownerCt.enable();
+                    this.current_trace_url = "/traces/new/trace_id/" + this.target.summaryId.split(".").pop()
                 }
+                this.sessionFids.push(this.target.summaryId);
             },
             "featureunselected": function(e) {
-                if (this.active && featureManager.layerRecord.get("name") == "geonode:trace") {
+                if (this.active && featureManager.layerRecord.get("name") == "geonode:observations_trace") {
+                    this.sessionFids = [];
                     this.target.summaryId = null;
                 }
             },
@@ -85,6 +93,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     iconCls: "icon-import",
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];
+                        featureManager.loadFeatures()
                         if (this.output[0].newFeaturesOnly.getValue()) {
                             featureManager.on("clearfeatures", this.showUploadWindow, this, {single: true});
                             featureManager.clearFeatures();
@@ -109,6 +118,24 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     xtype: "button",
                     text: "Join",
                     iconCls: "icon-layer-switcher",
+                    handler: function() {
+                        var featureManager = this.target.tools[this.featureManager];
+                        Ext.Ajax.request({
+                            method: "PUT",
+                            url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_trace_url,
+                            params: Ext.encode(this.sessionFids),
+                            success: function(response, opts) {
+                                alert('Fault Section created');
+                            },
+                            failure: function(response, opts){
+                                alert('Failed to create the Fault Section');
+                            },
+
+                            scope: this
+                        });
+
+                    },
+                    scope: this
                     }]
              }, {
                 xtype: "textfield",
@@ -147,7 +174,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             featureManager.setLayer();
             if (!this.layerRecord) {
                 this.target.createLayerRecord({
-                    name: "geonode:trace",
+                    name: "geonode:observations_trace",
                     source: "local"
                 }, function(record) {
                     this.layerRecord = record;
@@ -156,9 +183,10 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
+            console.dir(this.target)
             this.output[0].newFeaturesOnly.setValue(false);
             this.output[0].nameContains.setValue("");
-            featureManager.on("layerchange", function(mgr, rec) {
+            featureManager.on("layerchange", function(mgr, layer, attr) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
                         var fid;
@@ -218,7 +246,6 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
         }
         this.target.tools[this.featureManager].loadFeatures(filter);
     },
-    
     showUploadWindow: function() {
         var uploadWindow = new Ext.Window({
             title: "Import Faults",
@@ -267,11 +294,11 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                                 file.fileName + "/file.shp?update=overwrite",
                             xmlData: file,
                             headers: {
-                                "Content-Type": file.fileName.split(".").pop().toLowerCase() == "zip" ?
+                                "Content-Type": file.name.split(".").pop().toLowerCase() == "zip" ?
                                     "application/zip" : file.type
                             },
                             success: this.handleUpload.createDelegate(this,
-                                [file.fileName, uploadWindow], true),
+                                [file.name, uploadWindow], true),
                             scope: this
                         });
                     },
