@@ -154,7 +154,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 		id: "fault",
                 		title: "Neotectonic Fault Form"
                     }, {
-                		id: "source_trace",
+                		id: "simple_geometry",
                 		title: "Simple Fault Geometry"
                     }, {
                     	id: "source",
@@ -267,7 +267,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 outputConfig: {
                     propertyNames: propertyNames
                 }
-            },/* {
+            }, {
                 ptype: "app_faultform",
                 id: "faultform",
                 featureManager: "featuremanager",
@@ -285,7 +285,25 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 outputConfig: {
                     propertyNames: propertyNames
                 }
-            }, */{
+            }, {
+                ptype: "app_simplegeometryform",
+                id: "simplegeometryform",
+                featureManager: "featuremanager",
+                featureEditor: "featureeditor",
+                outputTarget: "simple_geometry"
+            }, {
+                ptype: "gxp_featureeditor",
+                id: "featureeditor",
+                featureManager: "featuremanager",
+                actionTarget: "simplegeometryform_tooltarget",
+                createFeatureActionText: "Draw",
+                editFeatureActionText: "Modify",
+		        snappingAgent: "snapping-agent",
+		        autoLoadFeatures: true,
+                outputConfig: {
+                    propertyNames: propertyNames
+                }
+            }, {
                 ptype: "app_sourceform",
                 id: "source_traceform",
                 featureManager: "featuremanager",
@@ -304,42 +322,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     propertyNames: propertyNames
                 }
             }, {
-                ptype: "app_sourceform",
-                id: "sourceform",
-                featureManager: "featuremanager",
-                featureEditor: "featureeditor",
-                outputTarget: "source"
-            }, {
-                ptype: "gxp_featureeditor",
-                id: "featureeditor",
-                featureManager: "featuremanager",
-                actionTarget: "sourceform_tooltarget",
-                createFeatureActionText: "Draw",
-                editFeatureActionText: "Modify",
-		        snappingAgent: "snapping-agent",
-		        autoLoadFeatures: true,
-                outputConfig: {
-                    propertyNames: propertyNames
-                }
-            },{
-                ptype: "app_sourceform",
-                id: "sourceform",
-                featureManager: "featuremanager",
-                featureEditor: "featureeditor",
-                outputTarget: "source"
-            }, {
-                ptype: "gxp_featureeditor",
-                id: "featureeditor",
-                featureManager: "featuremanager",
-                actionTarget: "sourceform_tooltarget",
-                createFeatureActionText: "Draw",
-                editFeatureActionText: "Modify",
-		        snappingAgent: "snapping-agent",
-		        autoLoadFeatures: true,
-                outputConfig: {
-                    propertyNames: propertyNames
-                    }
-             }, {
 		         ptype: "gxp_wmsgetfeatureinfo",
 	             outputConfig: {
 	                 width: 400
