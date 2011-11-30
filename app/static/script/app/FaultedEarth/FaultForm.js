@@ -74,7 +74,7 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
-                fieldLabel: "Modify a fault",
+                fieldLabel: "Modify a Neotectonic fault",
                 items: [{
                     id: this.id + "_tooltarget",
                     xtype: "container",
@@ -198,7 +198,7 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
     
     showUploadWindow: function() {
         var uploadWindow = new Ext.Window({
-            title: "Import Faults",
+            title: "Import Neotectonic faults",
             width: 250,
             autoHeight: true,
             modal: true,

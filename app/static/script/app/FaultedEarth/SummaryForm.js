@@ -72,7 +72,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "To create a <b>Fault,</b> select a record by holding down ctl or shift to select multiple records. Then click join."
+                html: "To create a <b>Neotectonic fault,</b> select a record by holding down ctl or shift to select multiple records. Then click join."
             }, {
                 xtype: "container",
                 layout: "hbox",
@@ -211,7 +211,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
     
     showUploadWindow: function() {
         var uploadWindow = new Ext.Window({
-            title: "Import Faults",
+            title: "Import Neotectonic faults",
             width: 250,
             autoHeight: true,
             modal: true,
