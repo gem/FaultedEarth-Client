@@ -72,72 +72,13 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                 anchor: "100%"
             },
             items: [{
-                xtype: "container",
-                layout: "hbox",
-                cls: "composite-wrap",
-                fieldLabel: "Create or edit a trace",
-                items: [{
-                    id: this.id + "_tooltarget",
-                    xtype: "container",
-                    cls: "toolbar-spaced",
-                    layout: "toolbar"
-                }]
-            }, {
-                xtype: "container",
-                layout: "hbox",
-                cls: "composite-wrap",
-                fieldLabel: "Upload a trace",
-                items: [{
-                    xtype: "button",
-                    text: "Import",
-                    iconCls: "icon-import",
-                    handler: function() {
-                        var featureManager = this.target.tools[this.featureManager];
-                        featureManager.loadFeatures()
-                        if (this.output[0].newFeaturesOnly.getValue()) {
-                            featureManager.on("clearfeatures", this.showUploadWindow, this, {single: true});
-                            featureManager.clearFeatures();
-                        } else {
-                            this.showUploadWindow();
-                        }
-                    },
-                    scope: this
-                }]
-            }, {
                 xtype: "box",
                 autoEl: {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "To create a Neotectonic Section,<b> select traces in the grid or on the map</b> hold down ctl or shift to select multiple records. Then click join. Filter the grid with the options below."
+                html: "export button for source goes here..."
             }, {
-                xtype: "container",
-                layout: "hbox",
-                fieldLabel: "Join traces",
-                items: [{
-                    xtype: "button",
-                    text: "Join",
-                    iconCls: "icon-layer-switcher",
-                    handler: function() {
-                        var featureManager = this.target.tools[this.featureManager];
-                        Ext.Ajax.request({
-                            method: "PUT",
-                            url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_trace_url,
-                            params: Ext.encode(this.sessionFids),
-                            success: function(response, opts) {
-                                alert('Fault Section created');
-                            },
-                            failure: function(response, opts){
-                                alert('Failed to create the Fault Section');
-                            },
-
-                            scope: this
-                        });
-
-                    },
-                    scope: this
-                    }]
-             }, {
                 xtype: "textfield",
                 ref: "nameContains",
                 fieldLabel: "Search for name",
