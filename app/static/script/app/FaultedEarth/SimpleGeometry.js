@@ -113,6 +113,24 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
                     xtype: "button",
                     text: "Generate",
                     iconCls: "icon-layer-switcher",
+                    handler: function() {
+                        var featureManager = this.target.tools[this.featureManager];
+                        Ext.Ajax.request({
+                            method: "PUT",
+                            url: this.target.localGeoNodeUrl + this.target.localHostname + '/observations/faultsource/create',
+                            params: Ext.encode({fault_id: this.target.summaryId, name: ''}),
+                            success: function(response, opts) {
+                                alert('Fault source generated');
+                            },
+                            failure: function(response, opts){
+                                alert('Failed to generate the Fault source');
+                            },
+
+                            scope: this
+                        });
+
+                    },
+                    scope: this
                     }]
              }],
             listeners: {
