@@ -94,12 +94,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];
                         featureManager.loadFeatures()
-                        if (this.output[0].newFeaturesOnly.getValue()) {
-                            featureManager.on("clearfeatures", this.showUploadWindow, this, {single: true});
-                            featureManager.clearFeatures();
-                        } else {
-                            this.showUploadWindow();
-                        }
+                        this.showUploadWindow();
                     },
                     scope: this
                 }]
@@ -137,24 +132,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     },
                     scope: this
                     }]
-             }, {
-                xtype: "textfield",
-                ref: "nameContains",
-                fieldLabel: "Search for name",
-                validationDelay: 500,
-                listeners: {
-                        "valid": this.updateFilter,
-                        scope: this
-                }
-             }, {
-                xtype: "checkbox",
-                ref: "newFeaturesOnly",
-                hideLabel: true,
-                disabled: true,
-                boxLabel: "Only show grid rows from this session",
-                handler: this.updateFilter,
-                scope: this
-            }],
+             }],
             listeners: {
                 "added": function(cmp, ct) {
                     ct.on({
@@ -167,7 +145,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             }
         });
     },
-    
+
     activate: function() {
         if (FaultedEarth.TraceForm.superclass.activate.apply(this, arguments)) {
             var featureManager = this.target.tools[this.featureManager];
@@ -183,8 +161,6 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
-            this.output[0].newFeaturesOnly.setValue(false);
-            this.output[0].nameContains.setValue("");
             featureManager.on("layerchange", function(mgr, layer, attr) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
@@ -196,7 +172,6 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                                 if (action != "destroy") {
                                     this.sessionFids.push(fid);
                                 }
-                                this.output[0].newFeaturesOnly.setDisabled(!this.sessionFids.length);
                             }
                         }
                     },
@@ -221,30 +196,6 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
         }
     },
     
-    updateFilter: function() {
-        var form = this.output[0];
-        var filters = [];
-        form.newFeaturesOnly.getValue() && filters.push(
-            new OpenLayers.Filter.FeatureId({fids: this.sessionFids})
-        );
-        form.nameContains.getValue() && filters.push(
-            new OpenLayers.Filter.Comparison({
-                type: OpenLayers.Filter.Comparison.LIKE,
-                property: "name",
-                value: "*" + form.nameContains.getValue() + "*",
-                matchCase: false
-            })
-        );
-        var filter;
-        if (filters.length > 0) {
-            filter = filters.length == 1 ? filters[0] :
-                new OpenLayers.Filter.Logical({
-                    type: OpenLayers.Filter.Logical.AND,
-                    filters: filters
-                });
-        }
-        this.target.tools[this.featureManager].loadFeatures(filter);
-    },
     showUploadWindow: function() {
         var uploadWindow = new Ext.Window({
             title: "Import Faults",

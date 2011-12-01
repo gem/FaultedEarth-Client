@@ -89,23 +89,6 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
                 },
                 html: "Once a fault has the required attributes, and simplified geometry, select a fault from the grid and use the 'generate' button to calculate a fault source."
             }, {
-                xtype: "textfield",
-                ref: "nameContains",
-                fieldLabel: "Search for name",
-                validationDelay: 500,
-                listeners: {
-                        "valid": this.updateFilter,
-                        scope: this
-                }
-             }, {
-                xtype: "checkbox",
-                ref: "newFeaturesOnly",
-                hideLabel: true,
-                disabled: true,
-                boxLabel: "Only show grid rows from this session",
-                handler: this.updateFilter,
-                scope: this
-            }, {
                 xtype: "container",
                 layout: "hbox",
                 fieldLabel: "Generate Fault Source",
@@ -161,8 +144,6 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
-            this.output[0].newFeaturesOnly.setValue(false);
-            this.output[0].nameContains.setValue("");
             featureManager.on("layerchange", function(mgr, rec) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
@@ -174,7 +155,6 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
                                 if (action != "destroy") {
                                     this.sessionFids.push(fid);
                                 }
-                                this.output[0].newFeaturesOnly.setDisabled(!this.sessionFids.length);
                             }
                         }
                     },
@@ -198,32 +178,7 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
             this.target.tools[this.featureManager].featureStore.un("save", this.monitorSave, this);
         }
     },
-    
-    updateFilter: function() {
-        var form = this.output[0];
-        var filters = [];
-        form.newFeaturesOnly.getValue() && filters.push(
-            new OpenLayers.Filter.FeatureId({fids: this.sessionFids})
-        );
-        form.nameContains.getValue() && filters.push(
-            new OpenLayers.Filter.Comparison({
-                type: OpenLayers.Filter.Comparison.LIKE,
-                property: "name",
-                value: "*" + form.nameContains.getValue() + "*",
-                matchCase: false
-            })
-        );
-        var filter;
-        if (filters.length > 0) {
-            filter = filters.length == 1 ? filters[0] :
-                new OpenLayers.Filter.Logical({
-                    type: OpenLayers.Filter.Logical.AND,
-                    filters: filters
-                });
-        }
-        this.target.tools[this.featureManager].loadFeatures(filter);
-    },
-    
+
     showUploadWindow: function() {
         var uploadWindow = new Ext.Window({
             title: "Import Faults",
