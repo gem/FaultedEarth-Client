@@ -68,6 +68,17 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 anchor: "100%"
             },
             items: [{
+                xtype: "container",
+                layout: "hbox",
+                cls: "composite-wrap",
+                fieldLabel: "edit a Neotectonic fault section",
+                items: [{
+                    id: this.id + "_tooltarget",
+                    xtype: "container",
+                    cls: "toolbar-spaced",
+                    layout: "toolbar"
+                }]
+            }, {
                 xtype: "box",
                 autoEl: {
                     tag: "p",
