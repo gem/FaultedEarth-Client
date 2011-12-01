@@ -77,7 +77,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "fault source export button for goes here..."
+                html: "fault source export button goes here..."
             }],
             listeners: {
                 "added": function(cmp, ct) {
