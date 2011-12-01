@@ -101,15 +101,6 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     scope: this
                     }]
             }, {
-                xtype: "textfield",
-                ref: "nameContains",
-                fieldLabel: "Search for name",
-                validationDelay: 500,
-                listeners: {
-                        "valid": this.updateFilter,
-                        scope: this
-                }
-             }, {
                 xtype: "checkbox",
                 ref: "newFeaturesOnly",
                 hideLabel: true,
@@ -147,7 +138,6 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 featureManager.setLayer(this.layerRecord);
             }
             this.output[0].newFeaturesOnly.setValue(false);
-            this.output[0].nameContains.setValue("");
             featureManager.on("layerchange", function(mgr, rec) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
@@ -182,31 +172,6 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
         if (FaultedEarth.SummaryForm.superclass.deactivate.apply(this, arguments)) {
             this.target.tools[this.featureManager].featureStore.un("save", this.monitorSave, this);
         }
-    },
-    
-    updateFilter: function() {
-        var form = this.output[0];
-        var filters = [];
-        form.newFeaturesOnly.getValue() && filters.push(
-            new OpenLayers.Filter.FeatureId({fids: this.sessionFids})
-        );
-        form.nameContains.getValue() && filters.push(
-            new OpenLayers.Filter.Comparison({
-                type: OpenLayers.Filter.Comparison.LIKE,
-                property: "name",
-                value: "*" + form.nameContains.getValue() + "*",
-                matchCase: false
-            })
-        );
-        var filter;
-        if (filters.length > 0) {
-            filter = filters.length == 1 ? filters[0] :
-                new OpenLayers.Filter.Logical({
-                    type: OpenLayers.Filter.Logical.AND,
-                    filters: filters
-                });
-        }
-        this.target.tools[this.featureManager].loadFeatures(filter);
     },
     
     showUploadWindow: function() {
