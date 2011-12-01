@@ -37,6 +37,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
         FaultedEarth.SummaryForm.superclass.init.apply(this, arguments);
         
         this.sessionFids = [];
+        this.fault= {};
         var featureManager = target.tools[this.featureManager];
         featureManager.featureLayer.events.on({
             "featureselected": function(e) {
@@ -74,6 +75,15 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 },
                 html: "To create a <b>Neotectonic fault,</b> select a record by holding down ctl or shift to select multiple records. Then click join."
             }, {
+                xtype: "textfield",
+                ref: "fault",
+                fieldLabel: "Neotectonic Fault Name",
+                //validationDelay: 500,
+                listeners: {
+                        "valid": this.updateFaultSectionName,
+                        scope: this
+                }
+             }, {
                 xtype: "container",
                 layout: "hbox",
                 fieldLabel: "Join sections",
@@ -83,6 +93,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     iconCls: "icon-layer-switcher",
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];
+                        this.sessionFids.push(this.fault);
                         Ext.Ajax.request({
                             method: "PUT",
                             url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_fault_section_url,
@@ -113,7 +124,12 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
             }
         });
     },
-    
+    updateFaultSectionName: function() {
+        var form = this.output[0]
+        if (form.fault.getValue()) {
+                this.fault['name'] = form.fault.getValue()
+        }
+    },
     activate: function() {
         if (FaultedEarth.SummaryForm.superclass.activate.apply(this, arguments)) {
             var featureManager = this.target.tools[this.featureManager];
