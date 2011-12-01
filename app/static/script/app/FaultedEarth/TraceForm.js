@@ -37,6 +37,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
         FaultedEarth.TraceForm.superclass.init.apply(this, arguments);
         
         this.sessionFids = [];
+        this.faultSection = {};
         var featureManager = target.tools[this.featureManager];
         featureManager.featureLayer.events.on({
             "featureselected": function(e) {
@@ -106,6 +107,15 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 },
                 html: "To create a Neotectonic Section,<b> select traces in the grid or on the map</b> hold down ctl or shift to select multiple records. Then click join. Filter the grid with the options below."
             }, {
+                xtype: "textfield",
+                ref: "faultSectionName",
+                fieldLabel: "Neotectonic Section Name",
+                //validationDelay: 500,
+                listeners: {
+                        "valid": this.updateFaultSectionName,
+                        scope: this
+                }
+             }, {
                 xtype: "container",
                 layout: "hbox",
                 fieldLabel: "Join traces",
@@ -115,6 +125,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     iconCls: "icon-layer-switcher",
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];
+                        this.sessionFids.push(this.faultSection);
                         Ext.Ajax.request({
                             method: "PUT",
                             url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_trace_url,
@@ -144,6 +155,13 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 scope: this
             }
         });
+    },
+
+    updateFaultSectionName: function() {
+        var form = this.output[0]
+        if (form.faultSectionName.getValue()) {
+                this.faultSection['name'] = form.faultSectionName.getValue()
+        }
     },
 
     activate: function() {
