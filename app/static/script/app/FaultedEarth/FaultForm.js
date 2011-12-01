@@ -87,14 +87,6 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
                     tag: "p",
                     cls: "x-form-item"
                 },
-            }, {
-                xtype: "checkbox",
-                ref: "newFeaturesOnly",
-                hideLabel: true,
-                disabled: true,
-                boxLabel: "Only show grid rows from this session",
-                handler: this.updateFilter,
-                scope: this
             }],
             listeners: {
                 "added": function(cmp, ct) {
@@ -124,7 +116,6 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
-            this.output[0].newFeaturesOnly.setValue(false);
             featureManager.on("layerchange", function(mgr, rec) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
@@ -136,7 +127,6 @@ FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
                                 if (action != "destroy") {
                                     this.sessionFids.push(fid);
                                 }
-                                this.output[0].newFeaturesOnly.setDisabled(!this.sessionFids.length);
                             }
                         }
                     },

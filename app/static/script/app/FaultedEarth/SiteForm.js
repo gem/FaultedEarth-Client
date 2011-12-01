@@ -110,15 +110,7 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
                     text: "Join",
                     iconCls: "icon-layer-switcher",
                     }]
-            }, {
-                xtype: "checkbox",
-                ref: "newFeaturesOnly",
-                hideLabel: true,
-                disabled: true,
-                boxLabel: "Only show grid rows from this session",
-                handler: this.updateFilter,
-                scope: this
-             }],
+            }],
             listeners: {
                 "added": function(cmp, ct) {
                     ct.on({
@@ -147,7 +139,6 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
-            this.output[0].newFeaturesOnly.setValue(false);
             featureManager.on("layerchange", function(mgr, rec) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
@@ -159,7 +150,6 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
                                 if (action != "destroy") {
                                     this.sessionFids.push(fid);
                                 }
-                                this.output[0].newFeaturesOnly.setDisabled(!this.sessionFids.length);
                             }
                         }
                     },
