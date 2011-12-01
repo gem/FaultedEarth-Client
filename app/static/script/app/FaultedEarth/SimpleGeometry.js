@@ -89,14 +89,6 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
                 },
                 html: "Once a fault has the required attributes, and simplified geometry, select a fault from the grid and use the 'generate' button to calculate a fault source."
             }, {
-                xtype: "checkbox",
-                ref: "newFeaturesOnly",
-                hideLabel: true,
-                disabled: true,
-                boxLabel: "Only show grid rows from this session",
-                handler: this.updateFilter,
-                scope: this
-            }, {
                 xtype: "container",
                 layout: "hbox",
                 fieldLabel: "Generate Fault Source",
@@ -134,7 +126,6 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
-            this.output[0].newFeaturesOnly.setValue(false);
             featureManager.on("layerchange", function(mgr, rec) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
@@ -146,7 +137,6 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
                                 if (action != "destroy") {
                                     this.sessionFids.push(fid);
                                 }
-                                this.output[0].newFeaturesOnly.setDisabled(!this.sessionFids.length);
                             }
                         }
                     },
