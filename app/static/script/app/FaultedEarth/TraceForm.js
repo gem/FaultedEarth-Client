@@ -26,17 +26,17 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
      */
     temporaryWorkspaceNamespaceUri: "http://geonode.org/temporary",
     
-    /** private: property[sessionFids]
+    /** private: property[sessionTids]
      *  ``Array`` fids of features added/modified in this session
      */
-    sessionFids: null,
+    sessionTids: [],
     
     autoActivate: false,
     
     init: function(target) {
         FaultedEarth.TraceForm.superclass.init.apply(this, arguments);
         
-        this.sessionFids = [];
+        this.sessionTids = [];
         this.faultSection = {};
         var featureManager = target.tools[this.featureManager];
         featureManager.featureLayer.events.on({
@@ -45,20 +45,20 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     return;
                 }
                 if (featureManager.layerRecord.get("name") == "geonode:observations_trace") {
-                    this.target.summaryId = e.feature.fid;
+                    this.target.traceId = e.feature.fid;
 
                     this.current_trace_url = "/observations/traces/join";
+                    this.sessionTids.push(this.target.traceId);
 
-                } else if (this.target.summaryId) {
+                } else if (this.target.traceId) {
                     this.output[0].ownerCt.enable();
-                    this.current_trace_url = "/traces/new/trace_id/" + this.target.summaryId.split(".").pop()
+                    this.current_trace_url = "/traces/new/trace_id/" + this.target.traceId.split(".").pop()
                 }
-                this.sessionFids.push(this.target.summaryId);
             },
             "featureunselected": function(e) {
                 if (this.active && featureManager.layerRecord.get("name") == "geonode:observations_trace") {
-                    this.sessionFids = [];
-                    this.target.summaryId = null;
+                    this.sessionTids = [];
+                    this.target.traceId = null;
                 }
             },
             scope: this
@@ -125,13 +125,14 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     iconCls: "icon-layer-switcher",
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];
-                        this.sessionFids.push(this.faultSection);
+                        this.sessionTids.push(this.faultSection);
                         Ext.Ajax.request({
                             method: "PUT",
                             url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_trace_url,
-                            params: Ext.encode(this.sessionFids),
+                            params: Ext.encode(this.sessionTids),
                             success: function(response, opts) {
                                 alert('Fault Section created');
+                                this.sessionTids = [];
                             },
                             failure: function(response, opts){
                                 alert('Failed to create the Fault Section');
@@ -186,16 +187,16 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                         for (var action in data) {
                             for (var i=data[action].length-1; i>=0; --i) {
                                 fid = data[action][i].feature.fid;
-                                this.sessionFids.remove(fid);  
+                                this.sessionTids.remove(fid);  
                                 if (action != "destroy") {
-                                    this.sessionFids.push(fid);
+                                    this.sessionTids.push(fid);
                                 }
                             }
                         }
                     },
                     "load": function() {
-                        this.target.summaryId && window.setTimeout((function() {
-                            var feature = mgr.featureLayer.getFeatureByFid(this.target.summaryId);
+                        this.target.traceId && window.setTimeout((function() {
+                            var feature = mgr.featureLayer.getFeatureByFid(this.target.traceId);
                             if (feature && feature.layer.selectedFeatures.indexOf(feature) == -1) {
                                 feature.layer.selectedFeatures.push(feature);
                                 feature.layer.events.triggerEvent("featureselected", {feature: feature});
