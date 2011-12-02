@@ -100,7 +100,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                             params: Ext.encode(this.sessionFids),
                             success: function(response, opts) {
                                 alert('Fault created');
-                                this.sessionFids = []
+                                this.sessionFids = [];
                             },
                             failure: function(response, opts){
                                 alert('Failed to create the Fault');
