@@ -8,7 +8,7 @@
     <property name="build" location="build"/>
     <property name="app.proxy.geoserver" value="http://localhost/geoserver/"/>
     <property name="app.proxy.observations" value="http://localhost/observations/"/>
-    <property name="app.port" value="8080"/>
+    <property name="app.port" value="8008"/>
     <property name="app.deploy.geoserver" value="/geoserver/"/>
 
     <target name="init">
