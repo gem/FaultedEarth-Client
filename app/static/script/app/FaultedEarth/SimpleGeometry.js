@@ -262,7 +262,7 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
                     feature = features[i];
                     extent.extend(feature.geometry.getBounds());
                     feature.fid = null;
-                    feature.state = OpenLayers.State.UPDATE;
+                    feature.state = OpenLayers.State.INSERT;
                     // convert dates
                     for (var a in feature.attributes) {
                         date = Date.parseDate(feature.attributes[a], "Y/m/d");
