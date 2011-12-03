@@ -48,7 +48,7 @@
             var app = new FaultedEarth({
                 
                 localGeoServerUrl: "/geoserver/",
-                localGeoNodeUrl: window.location.href + "proxy/?url=",
+                localGeoNodeUrl: 'http://' + window.location.hostname + "/proxy/?url=",
                 localHostname: 'http://' + window.location.hostname,
                                 
                 defaultSourceType: "gxp_wmscsource",
@@ -106,10 +106,6 @@
                         source: "local",
                         name: "geonode:observations_faultsource",
                         title: "Fault Source"
-                    },{
-                        source: "local",
-                        name: "geonode:observations_faultsource",
-                        title: "Fault Source Trace"
                     },{
                         source: "local",
                         name: "geonode:observations_fault",

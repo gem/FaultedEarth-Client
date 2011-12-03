@@ -29,7 +29,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
     /** private: property[sessionFids]
      *  ``Array`` fids of features added/modified in this session
      */
-    sessionFids: null,
+    sessionFids: [],
     
     autoActivate: false,
     
@@ -47,8 +47,8 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 if (featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
                     this.target.summaryId = e.feature.attributes.id;
                     this.current_fault_section_url = "/observations/faultsection/join";
+                    this.sessionFids.push(this.target.summaryId);
                 }
-                this.sessionFids.push(this.target.summaryId);
             },
             "featureunselected": function(e) {
                 if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
@@ -111,6 +111,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                             params: Ext.encode(this.sessionFids),
                             success: function(response, opts) {
                                 alert('Fault created');
+                                this.sessionFids = [];
                             },
                             failure: function(response, opts){
                                 alert('Failed to create the Fault');
