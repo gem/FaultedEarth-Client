@@ -98,14 +98,21 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
     	    "length_pre": "Length Pref"
         };
         
-        grid = new gxp.grid.FeatureGrid({
-               title: "Feature Attributes",
-               //store: store,
-               ignoreFields: ["the_geom"],
-               //map: map,
-               //renderTo: "south",
-               height: 300,
-               width: 350
+        grid = new Ext.Panel({
+               ptype: "gxp_featuregrid",
+               alwaysDisplayOnMap: true,
+               selectOnMap: true,
+               displayMode: "selected",
+               featureManager: "trace_featuremanager",
+               outputTarget: "featuregrid",
+               outputConfig: {
+                   id: "grid",
+                   propertyNames: propertyNames
+               },
+               controlOptions: {
+                   multiple: true,
+               }
+        
            });
         
         var tabs = new Ext.TabPanel({
