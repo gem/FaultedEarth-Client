@@ -208,6 +208,41 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 paging: false,
                 maxFeatures: 100
             }, {
+                ptype: "gxp_featuremanager",
+                id: "summary_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
+            }, {
+                ptype: "gxp_featuremanager",
+                id: "site_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
+            }, {
+                ptype: "gxp_featuremanager",
+                id: "fault_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
+            }, {
+                ptype: "gxp_featuremanager",
+                id: "simpleFault_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
+            }, {
+                ptype: "gxp_featuremanager",
+                id: "source_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
+            }, {
                 ptype: "gxp_featuregrid",
                 alwaysDisplayOnMap: true,
                 selectOnMap: true,
@@ -220,24 +255,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 },
                 controlOptions: {
                     multiple: true,
-                }
-            }, {
-                ptype: "app_summaryform",
-                id: "summaryform",
-                featureManager: "featuremanager",
-                featureEditor: "featureeditor",
-                outputTarget: "summary"
-            }, {
-                ptype: "gxp_featureeditor",
-                id: "featureeditor",
-                featureManager: "featuremanager",
-                modifyOnly: true,
-                actionTarget: "summaryform_tooltarget",
-                //createFeatureActionText: "Draw",
-                editFeatureActionText: "Modify",
-				snappingAgent: "snapping-agent",
-                outputConfig: {
-                    propertyNames: propertyNames
                 }
             }, {
                 ptype: "app_traceform",
@@ -258,15 +275,33 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     propertyNames: propertyNames
                 }
             }, {
+                ptype: "app_summaryform",
+                id: "summaryform",
+                featureManager: "summary_featuremanager",
+                featureEditor: "featureeditor",
+                outputTarget: "summary"
+            }, {
+                ptype: "gxp_featureeditor",
+                id: "featureeditor",
+                featureManager: "summary_featuremanager",
+                modifyOnly: true,
+                actionTarget: "summaryform_tooltarget",
+                //createFeatureActionText: "Draw",
+                editFeatureActionText: "Modify",
+				snappingAgent: "snapping-agent",
+                outputConfig: {
+                    propertyNames: propertyNames
+                }
+            }, {
                 ptype: "app_siteform",
                 id: "siteform",
-                featureManager: "featuremanager",
+                featureManager: "site_featuremanager",
                 featureEditor: "featureeditor",
                 outputTarget: "site"
             }, {
                 ptype: "gxp_featureeditor",
                 id: "featureeditor",
-                featureManager: "featuremanager",
+                featureManager: "site_featuremanager",
                 actionTarget: "siteform_tooltarget",
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
@@ -278,13 +313,13 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             }, {
                 ptype: "app_faultform",
                 id: "faultform",
-                featureManager: "featuremanager",
+                featureManager: "fault_featuremanager",
                 featureEditor: "featureeditor",
                 outputTarget: "fault"
             }, {
                 ptype: "gxp_featureeditor",
                 id: "featureeditor",
-                featureManager: "featuremanager",
+                featureManager: "fault_featuremanager",
                 actionTarget: "faultform_tooltarget",
                 modifyOnly: true,
                 //createFeatureActionText: "Draw",
@@ -297,13 +332,13 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             }, {
                 ptype: "app_simplegeometryform",
                 id: "simplegeometryform",
-                featureManager: "featuremanager",
+                featureManager: "simpleFault_featuremanager",
                 featureEditor: "featureeditor",
                 outputTarget: "simple_geometry"
             }, {
                 ptype: "gxp_featureeditor",
                 id: "featureeditor",
-                featureManager: "featuremanager",
+                featureManager: "simpleFault_featuremanager",
                 actionTarget: "simplegeometryform_tooltarget",
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
@@ -315,13 +350,13 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             }, {
                 ptype: "app_sourceform",
                 id: "sourceform",
-                featureManager: "featuremanager",
+                featureManager: "source_featuremanager",
                 featureEditor: "featureeditor",
                 outputTarget: "source"
             }, {
                 ptype: "gxp_featureeditor",
                 id: "featureeditor",
-                featureManager: "featuremanager",
+                featureManager: "source_featuremanager",
                 actionTarget: "sourceform_tooltarget",
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
