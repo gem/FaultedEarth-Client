@@ -201,6 +201,13 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 paging: false,
                 maxFeatures: 100
             }, {
+                ptype: "gxp_featuremanager",
+                id: "trace_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
+            }, {
                 ptype: "gxp_featuregrid",
                 alwaysDisplayOnMap: true,
                 selectOnMap: true,
@@ -235,13 +242,13 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             }, {
                 ptype: "app_traceform",
                 id: "traceform",
-                featureManager: "featuremanager",
+                featureManager: "trace_featuremanager",
                 featureEditor: "featureeditor",
                 outputTarget: "trace"
             }, {
                 ptype: "gxp_featureeditor",
                 id: "featureeditor",
-                featureManager: "featuremanager",
+                featureManager: "trace_featuremanager",
                 actionTarget: "traceform_tooltarget",
                 autoLoadFeatures: true,
                 createFeatureActionText: "Draw",
