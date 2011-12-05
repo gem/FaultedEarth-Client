@@ -208,6 +208,20 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 paging: false,
                 maxFeatures: 100
             }, {
+                ptype: "gxp_featuregrid",
+                alwaysDisplayOnMap: true,
+                selectOnMap: true,
+                displayMode: "selected",
+                featureManager: "trace_featuremanager",
+                outputTarget: "featuregrid",
+                outputConfig: {
+                    id: "grid",
+                    propertyNames: propertyNames
+                },
+                controlOptions: {
+                    multiple: true,
+                }
+            }, {
                 ptype: "gxp_featuremanager",
                 id: "summary_featuremanager",
                 autoLoadFeatures: true,
