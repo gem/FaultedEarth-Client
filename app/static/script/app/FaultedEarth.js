@@ -190,7 +190,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     iconCls: "icon-geoexplorer",
                     text: "Login",
                 }]
-            },{
+            }, {
                 ptype: "gxp_layertree",
                 outputTarget: "tree",
             }, {
@@ -274,11 +274,11 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 ptype: "app_traceform",
                 id: "traceform",
                 featureManager: "trace_featuremanager",
-                featureEditor: "featureeditor",
+                featureEditor: "trace_featureeditor",
                 outputTarget: "trace"
             }, {
                 ptype: "gxp_featureeditor",
-                id: "featureeditor",
+                id: "trace_featureeditor",
                 featureManager: "trace_featuremanager",
                 actionTarget: "traceform_tooltarget",
                 autoLoadFeatures: true,
