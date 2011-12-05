@@ -103,7 +103,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                //store: store,
                ignoreFields: ["the_geom"],
                //map: map,
-               renderTo: "grid",
+               //renderTo: "south",
                height: 300,
                width: 350
            });
