@@ -98,6 +98,48 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
     	    "length_pre": "Length Pref"
         };
         
+        grid = new gxp.grid.FeatureGrid({
+               title: "Feature Attributes",
+               //store: store,
+               ignoreFields: ["the_geom"],
+               //map: map,
+               renderTo: "grid",
+               height: 300,
+               width: 350
+           });
+        
+        var tabs = new Ext.TabPanel({
+        	collapsible:false,
+        	//title:"Log/Info",
+        	//region: 'south',
+        	animCollapse: true,
+
+        	border: false,
+        	//height: 80, 
+        	//split: true,
+        	//layout:'fit',
+        	items: [{
+                    title: 'Normal Tab',
+                    items: [{
+                            id: "featuregrid",
+                            layout: "fit",
+                            region: "south",
+                            border: false,
+                            height: 200,
+                            split: true,
+                            collapseMode: "mini",
+                            items:[
+                                grid
+                            ]
+                    }]
+                }, {
+                    title: 'Normal Tab2',
+                    html: "My content was added during construction."
+                },]
+        	});
+        
+        
+        
         Ext.applyIf(config, {
             proxy: "/proxy?url=",
                 
@@ -169,6 +211,9 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     height: 200,
                     split: true,
                     collapseMode: "mini",
+                    items:[
+                        tabs
+                    ]
                 }]
             }],
             
