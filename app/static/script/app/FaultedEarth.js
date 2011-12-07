@@ -272,7 +272,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 featureManager: "featuremanager",
                 modifyOnly: true,
                 actionTarget: "simplegeometryform_tooltarget",
-                createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
 		        snappingAgent: "snapping-agent",
 		        autoLoadFeatures: true,
