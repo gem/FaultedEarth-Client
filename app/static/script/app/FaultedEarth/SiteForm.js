@@ -81,7 +81,7 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
                 fieldLabel: "Upload a site observation",
                 items: [{
                     xtype: "button",
-                    text: "Import",
+                    text: "Upload",
                     iconCls: "icon-import",
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];

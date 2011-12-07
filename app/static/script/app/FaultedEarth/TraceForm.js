@@ -90,7 +90,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 fieldLabel: "Upload a trace",
                 items: [{
                     xtype: "button",
-                    text: "Import",
+                    text: "Upload",
                     iconCls: "icon-import",
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];
