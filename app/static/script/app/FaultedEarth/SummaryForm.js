@@ -45,9 +45,8 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     return;
                 }
                 if (featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
-                    this.target.summaryId = e.feature.attributes.id;
                     this.current_fault_section_url = "/observations/faultsection/join";
-                    this.sessionFids.push(this.target.summaryId);
+                    this.sessionFids.push(e.feature.fid.split('.')[1]);
                 }
             },
             "featureunselected": function(e) {
