@@ -74,7 +74,7 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
-                fieldLabel: "Create or edit a simplified fault geometry",
+                fieldLabel: "Edit a simplified fault geometry",
                 items: [{
                     id: this.id + "_tooltarget",
                     xtype: "container",
