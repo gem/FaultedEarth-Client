@@ -67,7 +67,7 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
-                fieldLabel: "Create or edit a site observation",
+                fieldLabel: "Create or modify a site observation",
                 items: [{
                     id: this.id + "_tooltarget",
                     xtype: "container",
@@ -78,10 +78,10 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
-                fieldLabel: "Upload a site observation",
+                fieldLabel: "Upload a Site Observation",
                 items: [{
                     xtype: "button",
-                    text: "Import",
+                    text: "Upload",
                     iconCls: "icon-import",
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];
@@ -104,7 +104,7 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
             }, {
                 xtype: "container",
                 layout: "hbox",
-                fieldLabel: "Join site-observations",
+                fieldLabel: "Join Site Observations",
                 items: [{
                     xtype: "button",
                     text: "Join",
