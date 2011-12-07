@@ -69,7 +69,7 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "Select a fault from the grid below, then use the draw or modify button to create a simplified geometry that will be used to create a fault source" 
+                html: "Select a fault from the grid below, then use the modify button to create a simple geometry that will be used to create a fault source polygon" 
             },{
                 xtype: "container",
                 layout: "hbox",
