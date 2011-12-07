@@ -67,7 +67,7 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
-                fieldLabel: "Create or edit a site observation",
+                fieldLabel: "Create or modify a site observation",
                 items: [{
                     id: this.id + "_tooltarget",
                     xtype: "container",

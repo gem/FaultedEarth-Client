@@ -76,7 +76,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
-                fieldLabel: "Create or edit a trace",
+                fieldLabel: "Create or modify a trace",
                 items: [{
                     id: this.id + "_tooltarget",
                     xtype: "container",
