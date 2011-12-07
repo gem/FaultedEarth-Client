@@ -145,17 +145,9 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         id: 'site',
                         title: "Site Observation Form",
                         padding: 10
-                    },/* {
-                        id: 'observations',
-                        title: "Observations",
-                        layout: "fit",
-                        autoScroll: false
-                    },*/ {
-                		id: "fault",
-                		title: "Neotectonic Fault Form"
                     }, {
                 		id: "simple_geometry",
-                		title: "Simple Fault Geometry"
+                		title: "Neotectonic Fault Form"
                     }, {
                     	id: "source",
                     	title: "Fault Source"
@@ -265,25 +257,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 editFeatureActionText: "Modify",
                 snappingAgent: "snapping-agent",
                 autoLoadFeatures: true,
-                outputConfig: {
-                    propertyNames: propertyNames
-                }
-            }, {
-                ptype: "app_faultform",
-                id: "faultform",
-                featureManager: "featuremanager",
-                featureEditor: "featureeditor",
-                outputTarget: "fault"
-            }, {
-                ptype: "gxp_featureeditor",
-                id: "featureeditor",
-                featureManager: "featuremanager",
-                actionTarget: "faultform_tooltarget",
-                modifyOnly: true,
-                //createFeatureActionText: "Draw",
-                editFeatureActionText: "Modify",
-		        snappingAgent: "snapping-agent",
-		        autoLoadFeatures: true,
                 outputConfig: {
                     propertyNames: propertyNames
                 }
