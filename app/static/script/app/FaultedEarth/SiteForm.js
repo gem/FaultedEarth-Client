@@ -78,7 +78,7 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
-                fieldLabel: "Upload a site observation",
+                fieldLabel: "Upload a Site Observation",
                 items: [{
                     xtype: "button",
                     text: "Upload",
@@ -104,7 +104,7 @@ FaultedEarth.SiteForm = Ext.extend(gxp.plugins.Tool, {
             }, {
                 xtype: "container",
                 layout: "hbox",
-                fieldLabel: "Join site-observations",
+                fieldLabel: "Join Site Observations",
                 items: [{
                     xtype: "button",
                     text: "Join",
