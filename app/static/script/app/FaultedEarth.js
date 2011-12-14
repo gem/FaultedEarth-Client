@@ -174,7 +174,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     modal: true,
                     bodyCfg: {
                         tag: "iframe",
-                        src: "http://178.79.185.190/help.html",
+                        src: "faulted_earth_documentation.html",
                         style: {border: 0}
                     }
                 },
@@ -343,7 +343,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     width: 410,
                     height: 410
                 }
-            },{
+            }, {
                 ptype: "gxp_googlegeocoder",
                 outputTarget: "paneltbar",
                 outputConfig: {
