@@ -168,19 +168,19 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 actionTarget: {target: "paneltbar", index: 0},
                 outputAction: 0,
                 outputConfig: {
-                    title: "Login",
+                    title: "Help",
                     width: 900,
                     height: 500,
                     modal: true,
                     bodyCfg: {
                         tag: "iframe",
-                        src: "http://178.79.185.190/",
+                        src: "http://178.79.185.190/help.html",
                         style: {border: 0}
                     }
                 },
                 actions: [{
                     iconCls: "icon-geoexplorer",
-                    text: "Login",
+                    text: "Help",
                 }]
             },{
                 ptype: "gxp_layertree",
