@@ -44,15 +44,9 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                     return;
                 }
                 if (featureManager.layerRecord.get("name") == "geonode:observations_faultsource") {
-                    this.target.summaryId = e.feature.fid;
-
-                    this.current_trace_url = "/observations/traces/join";
-
-                } else if (this.target.summaryId) {
-                    this.output[0].ownerCt.enable();
-                    this.current_trace_url = "/traces/new/trace_id/" + this.target.summaryId.split(".").pop()
+                    this.current_fault_source_url = "/observations/faultsource/export";
+                    this.sessionFids.push(e.feature.fid.split('.')[1]);
                 }
-                this.sessionFids.push(this.target.summaryId);
             },
             "featureunselected": function(e) {
                 if (this.active && featureManager.layerRecord.get("name") == "geonode:observations_faultsource") {
@@ -77,8 +71,35 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "fault source export button goes here..."
-            }],
+                html: "Select a Fault Source from the grid below then click 'Export' to download it."
+            },    {
+                    xtype: "container",
+                    layout: "hbox",
+                    items: [{
+                        xtype: "button",
+                        text: "Export",
+                        iconCls: "icon-layer-switcher",
+                        handler: function() {
+                            var featureManager = this.target.tools[this.featureManager];
+                            Ext.Ajax.request({
+                                method: "PUT",
+                                url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_fault_source_url,
+                                params: Ext.encode(this.sessionFids),
+                                success: function(response, opts) {
+                                    alert('Fault Source record recorded');
+                                    this.sessionFids = [];
+                                },
+                                failure: function(response, opts){
+                                    alert('Fault Source record NOT recorded');
+                                },
+                                
+                                scope: this
+                            });
+
+                        },
+                        scope: this
+                        }]
+                 }],
             listeners: {
                 "added": function(cmp, ct) {
                     ct.on({
