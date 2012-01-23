@@ -76,7 +76,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
-                fieldLabel: "Create or edit a trace",
+                fieldLabel: "Create or modify a trace",
                 items: [{
                     id: this.id + "_tooltarget",
                     xtype: "container",
@@ -90,7 +90,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 fieldLabel: "Upload a trace",
                 items: [{
                     xtype: "button",
-                    text: "Import",
+                    text: "Upload",
                     iconCls: "icon-import",
                     handler: function() {
                         var featureManager = this.target.tools[this.featureManager];
@@ -105,7 +105,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "To create a Neotectonic Section,<b> select traces in the grid or on the map</b> hold down ctl or shift to select multiple records. Then click join. Filter the grid with the options below."
+                html: "From the table below press either the Shift or ctl to select the Traces you would like to join into a Fault Section"
             }, {
                 xtype: "textfield",
                 ref: "faultSectionName",

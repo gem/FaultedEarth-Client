@@ -83,7 +83,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     tag: "p",
                     cls: "x-form-item"
                 },
-                html: "To create a <b>Neotectonic fault,</b> select a record by holding down ctl or shift to select multiple records. Then click join."
+                html: "From the table below press either the Shift or ctl to select the Sections you would like to Join into a Fault"
             }, {
                 xtype: "textfield",
                 ref: "fault",
