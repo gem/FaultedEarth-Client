@@ -73,6 +73,15 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                 anchor: "100%"
             },
             items: [{
+                xtype: "textfield",
+                ref: "nameContains",
+                fieldLabel: "Search for key word in notes",
+                validationDelay: 500,
+                listeners: {
+                    "valid": this.updateFilter,
+                    scope: this
+                }
+              }, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
@@ -144,7 +153,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
                     },
                     scope: this
                     }]
-             }],
+              }],
             listeners: {
                 "added": function(cmp, ct) {
                     ct.on({
@@ -180,6 +189,7 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
+            this.output[0].nameContains.setValue("");
             featureManager.on("layerchange", function(mgr, layer, attr) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
@@ -214,6 +224,28 @@ FaultedEarth.TraceForm = Ext.extend(gxp.plugins.Tool, {
             this.target.tools[this.featureManager].featureStore.un("save", this.monitorSave, this);
         }
     },
+    
+    updateFilter: function() {
+        var form = this.output[0];
+        var filters = [];
+        form.nameContains.getValue() && filters.push(
+            new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.LIKE,
+                property: "notes",
+                value: "*" + form.nameContains.getValue() + "*",
+                matchCase: false
+            })
+        );
+        var filter;
+        if (filters.length > 0) {
+            filter = filters.length == 1 ? filters[0] :
+                new OpenLayers.Filter.Logical({
+                    type: OpenLayers.Filter.Logical.AND,
+                    filters: filters
+                });
+        }
+        this.target.tools[this.featureManager].loadFeatures(filter);
+        },
     
     showUploadWindow: function() {
         var uploadWindow = new Ext.Window({

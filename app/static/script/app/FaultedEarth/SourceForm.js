@@ -66,40 +66,49 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                 anchor: "100%"
             },
             items: [{
+                xtype: "textfield",
+                ref: "nameContains",
+                fieldLabel: "Search",
+                validationDelay: 500,
+                listeners: {
+                    "valid": this.updateFilter,
+                    scope: this
+                }
+            }, {
                 xtype: "box",
                 autoEl: {
                     tag: "p",
                     cls: "x-form-item"
                 },
                 html: "Select a Fault Source from the grid below then click 'Export' to download it."
-            },    {
-                    xtype: "container",
-                    layout: "hbox",
-                    items: [{
-                        xtype: "button",
-                        text: "Export",
-                        iconCls: "icon-layer-switcher",
-                        handler: function() {
-                            var featureManager = this.target.tools[this.featureManager];
-                            Ext.Ajax.request({
-                                method: "PUT",
-                                url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_fault_source_url,
-                                params: Ext.encode(this.sessionFids),
-                                success: function(response, opts) {
-                                    alert('Fault Source record recorded');
-                                    this.sessionFids = [];
-                                },
-                                failure: function(response, opts){
-                                    alert('Fault Source record NOT recorded');
-                                },
-                                
-                                scope: this
-                            });
+            }, {
+                xtype: "container",
+                layout: "hbox",
+                items: [{
+                    xtype: "button",
+                    text: "Export",
+                    iconCls: "icon-layer-switcher",
+                    handler: function() {
+                        var featureManager = this.target.tools[this.featureManager];
+                        Ext.Ajax.request({
+                            method: "PUT",
+                            url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_fault_source_url,
+                            params: Ext.encode(this.sessionFids),
+                            success: function(response, opts) {
+                                alert('Fault Source record recorded');
+                                this.sessionFids = [];
+                            },
+                            failure: function(response, opts){
+                                alert('Fault Source record NOT recorded');
+                            },
+                            
+                            scope: this
+                        });
 
-                        },
-                        scope: this
-                        }]
-                 }],
+                    },
+                    scope: this
+                }]
+             }],
             listeners: {
                 "added": function(cmp, ct) {
                     ct.on({
@@ -128,6 +137,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
+            this.output[0].nameContains.setValue("");
             featureManager.on("layerchange", function(mgr, layer, attr) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
@@ -161,6 +171,28 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
         if (FaultedEarth.SourceForm.superclass.deactivate.apply(this, arguments)) {
             this.target.tools[this.featureManager].featureStore.un("save", this.monitorSave, this);
         }
+    },
+    
+    updateFilter: function() {
+        var form = this.output[0];
+        var filters = [];
+        form.nameContains.getValue() && filters.push(
+            new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.LIKE,
+                property: "source_nm",
+                value: "*" + form.nameContains.getValue() + "*",
+                matchCase: false
+            })
+        );
+        var filter;
+        if (filters.length > 0) {
+            filter = filters.length == 1 ? filters[0] :
+                new OpenLayers.Filter.Logical({
+                    type: OpenLayers.Filter.Logical.AND,
+                    filters: filters
+                });
+        }
+        this.target.tools[this.featureManager].loadFeatures(filter);
     },
 
     showUploadWindow: function() {

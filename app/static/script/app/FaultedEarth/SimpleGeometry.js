@@ -64,13 +64,22 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
                 anchor: "100%"
             },
             items: [{
+                xtype: "textfield",
+                ref: "nameContains",
+                fieldLabel: "Search",
+                validationDelay: 500,
+                listeners: {
+                    "valid": this.updateFilter,
+                    scope: this
+                }
+            }, {
                 xtype: "box",
                 autoEl: {
                     tag: "p",
                     cls: "x-form-item"
                 },
                 html: "Select a fault from the grid below, then use the modify button to create a simple geometry that will be used to create a fault source polygon" 
-            },{
+            }, {
                 xtype: "container",
                 layout: "hbox",
                 cls: "composite-wrap",
@@ -144,6 +153,7 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
+            this.output[0].nameContains.setValue("");
             featureManager.on("layerchange", function(mgr, rec) {
                 mgr.featureStore.on({
                     "save": function(store, batch, data) {
@@ -177,6 +187,28 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
         if (FaultedEarth.SimpleGeometryForm.superclass.deactivate.apply(this, arguments)) {
             this.target.tools[this.featureManager].featureStore.un("save", this.monitorSave, this);
         }
+    },
+    
+    updateFilter: function() {
+        var form = this.output[0];
+        var filters = [];
+        form.nameContains.getValue() && filters.push(
+            new OpenLayers.Filter.Comparison({
+                type: OpenLayers.Filter.Comparison.LIKE,
+                property: "fault_name",
+                value: "*" + form.nameContains.getValue() + "*",
+                matchCase: false
+            })
+        );
+        var filter;
+        if (filters.length > 0) {
+            filter = filters.length == 1 ? filters[0] :
+                new OpenLayers.Filter.Logical({
+                    type: OpenLayers.Filter.Logical.AND,
+                    filters: filters
+                });
+        }
+        this.target.tools[this.featureManager].loadFeatures(filter);
     },
 
     showUploadWindow: function() {
