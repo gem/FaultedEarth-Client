@@ -86,8 +86,12 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
 	        "s_feature": "Site Feature",
 	        // custom field names for fault source form
     	    "source_nm": "Fault Source Name",
-    	    "width": "Width",
-    	    "area": "Area",
+    	    "width_min": "Width Min",
+    	    "width_max": "Width Max",
+    	    "width_pref": "Width Pref",
+    	    "area_min": "Area Min",
+    	    "area_max": "Area Max",
+    	    "area_pref": "Area Pref",
     	    "rake_min": "Rake Min",
     	    "rake_max": "Rake Max",
     	    "rake_pref": "Rake Pref",
@@ -95,7 +99,13 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
     	    "magnitude": "Magnitude",
     	    "length_min": "Length Min",
     	    "length_max": "Length Max",
-    	    "length_pre": "Length Pref"
+    	    "length_pre": "Length Pref",
+    	    "mag_min": "Magnitude Min",
+    	    "mag_max": "Magnitude Max",
+    	    "mag_pref": "Magnitude Pref",
+    	    "mom_min": "Seismic Movement Min",
+    	    "mom_max": "Seismic Movement Max",
+    	    "mom_pref": "Seismic Movement Pref",
         };
         
         Ext.applyIf(config, {
