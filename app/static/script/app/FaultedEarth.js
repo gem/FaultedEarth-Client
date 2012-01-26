@@ -106,6 +106,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
     	    "mom_min": "Seismic Movement Min",
     	    "mom_max": "Seismic Movement Max",
     	    "mom_pref": "Seismic Movement Pref",
+    	    "fault_id": "Fault ID"
         };
         
         Ext.applyIf(config, {
