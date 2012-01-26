@@ -158,10 +158,12 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         padding: 10
                     }, {
                 		id: "simple_geometry",
-                		title: "Neotectonic Fault Form"
+                		title: "Neotectonic Fault Form",
+                		padding: 10
                     }, {
                     	id: "source",
-                    	title: "Fault Source"
+                    	title: "Fault Source",
+                    	padding: 10
                     }]
                 },
 		"map", {
