@@ -86,8 +86,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             "s_feature": "Site Feature",
             // custom field names for fault source form
     	    "source_nm": "Fault Source Name",
-    	    "width": "Width",
-    	    "area": "Area",
     	    "rake_min": "Rake Min",
     	    "rake_max": "Rake Max",
     	    "rake_pref": "Rake Pref",
@@ -95,19 +93,27 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
     	    "magnitude": "Magnitude",
     	    "length_min": "Length Min",
     	    "length_max": "Length Max",
-    	    "length_pre": "Length Pref"
+    	    "length_pre": "Length Pref",
+    	    "length_pre": "Length Pref",
+    	    "mag_min": "Magnitude Min",
+    	    "mag_max": "Magnitude Max",
+    	    "mag_pref": "Magnitude Pref",
+    	    "mom_min": "Seismic Movement Min",
+    	    "mom_max": "Seismic Movement Max",
+    	    "mom_pref": "Seismic Movement Pref",
+    	    "fault_id": "Fault ID",
+    	    "width_min": "Width Min",
+    	    "width_max": "Width Max",
+            "width_pref": "Width Pref",
+            "area_min": "Area Min",
+            "area_max": "Area Max",
+            "area_pref": "Area Pref",
         };
         
         var tabs = new Ext.TabPanel({
         	collapsible:false,
-        	//title:"Log/Info",
-        	//region: 'south',
         	animCollapse: true,
-
         	border: false,
-        	//height: 80, 
-        	//split: true,
-        	//layout:'fit',
         	items: [{
                 title: 'Trace Grid',
                 items: [{
@@ -221,19 +227,19 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 actionTarget: {target: "paneltbar", index: 0},
                 outputAction: 0,
                 outputConfig: {
-                    title: "Login",
+                    title: "Help",
                     width: 900,
                     height: 500,
                     modal: true,
                     bodyCfg: {
                         tag: "iframe",
-                        src: "http://178.79.185.190/",
+                        src: "faulted_earth_documentation.html",
                         style: {border: 0}
                     }
                 },
                 actions: [{
                     iconCls: "icon-geoexplorer",
-                    text: "Login",
+                    text: "Help",
                 }]
             }, {
                 ptype: "gxp_layertree",
