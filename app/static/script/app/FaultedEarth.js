@@ -111,43 +111,45 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
         };
         
         var tabs = new Ext.TabPanel({
-        	collapsible:false,
         	animCollapse: true,
-        	border: false,
+        	activeTab : 0,
+        	border: true,
         	items: [{
                 title: 'Trace Grid',
                 items: [{
                     id: "trace_featuregrid",
                     layout: "fit",
-                    height: 200,
+                    height: 180,
                 }],
             }, {
                 title: 'Neotectonic Section Summary Grid',
                 items: [{
                     id: "summary_featuregrid",
                     layout: "fit",
-                    height: 200,
+                    height: 180,
+                    autoScroll: true,
                 }]
             }, {
                 title: 'Site Observations Grid',
                 items: [{
                     id: "site_featuregrid",
                     layout: "fit",
-                    height: 200,
+                    height: 180,
+                    autoScroll: true,
                 }]
             }, {
                 title: 'Fault Grid',
                 items: [{
                     id: "fault_featuregrid",
                     layout: "fit",
-                    height: 200,
+                    height: 180,
                 }]
             }, {
                 title: 'Fault Source Grid',
                 items: [{
                     id: "source_featuregrid",
                     layout: "fit",
-                    height: 200,
+                    height: 180,
                 }]
             }]
     	});
@@ -211,7 +213,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 },
 		"map", {
                     id: "tabs",
-                    layout: "fit",
+                    autoHeight: true,
                     region: "south",
                     border: false,
                     height: 200,
@@ -285,6 +287,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 alwaysDisplayOnMap: true,
                 selectOnMap: true,
                 displayMode: "selected",
+                autoHeight: true,   
                 featureManager: "summary_featuremanager",
                 outputTarget: "summary_featuregrid",
                 outputConfig: {
