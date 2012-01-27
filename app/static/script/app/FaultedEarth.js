@@ -83,8 +83,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             "notes": "Notes",
             "fault_section_id": "Fault Section Id",
             "t_feature": "Trace Feature",
-	        "s_feature": "Site Feature",
-	        // custom field names for fault source form
+            "s_feature": "Site Feature",
+            // custom field names for fault source form
     	    "source_nm": "Fault Source Name",
     	    "width": "Width",
     	    "area": "Area",
@@ -97,23 +97,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
     	    "length_max": "Length Max",
     	    "length_pre": "Length Pref"
         };
-        
-        grid = new Ext.Panel({
-               ptype: "gxp_featuregrid",
-               alwaysDisplayOnMap: true,
-               selectOnMap: true,
-               displayMode: "selected",
-               featureManager: "trace_featuremanager",
-               outputTarget: "featuregrid",
-               outputConfig: {
-                   id: "grid",
-                   propertyNames: propertyNames
-               },
-               controlOptions: {
-                   multiple: true,
-               }
-        
-           });
         
         var tabs = new Ext.TabPanel({
         	collapsible:false,
@@ -212,10 +195,12 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         padding: 10
                     }, {
                 		id: "fault",
-                		title: "Neotectonic Fault Form"
+                		title: "Neotectonic Fault Form",
+                		padding: 10
                     }, {
-                    	id: "source",
-                    	title: "Fault Source"
+                    	id: "source",   
+                    	title: "Fault Source",
+                    	padding: 10
                     }]
                 },
 		"map", {
@@ -396,9 +381,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 featureManager: "summary_featuremanager",
                 modifyOnly: true,
                 actionTarget: "summaryform_tooltarget",
-                //createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
-				snappingAgent: "snapping-agent",
+                snappingAgent: "snapping-agent",
                 outputConfig: {
                     propertyNames: propertyNames
                 }
@@ -433,8 +417,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 actionTarget: "faultform_tooltarget",
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
-		        snappingAgent: "snapping-agent",
-		        autoLoadFeatures: true,
+                snappingAgent: "snapping-agent",
+                autoLoadFeatures: true,
                 outputConfig: {
                     propertyNames: propertyNames
                 }
@@ -443,7 +427,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 id: "sourceform",
                 featureManager: "source_featuremanager",
                 featureEditor: "featureeditor",
-                outputTarget: "source"
+                outputTarget: "source",
             }, {
                 ptype: "gxp_featureeditor",
                 id: "featureeditor",
@@ -451,8 +435,8 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 actionTarget: "sourceform_tooltarget",
                 //createFeatureActionText: "Draw",
                 //editFeatureActionText: "Modify",
-		        snappingAgent: "snapping-agent",
-		        autoLoadFeatures: true,
+                snappingAgent: "snapping-agent",
+                autoLoadFeatures: true,
                 outputConfig: {
                     propertyNames: propertyNames
                 }
@@ -506,7 +490,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 featureManager: "source_featuremanager",
                 actionTarget: "sourceform_tooltarget",
                 tooltip: "Zoom to selected closure"
-            },{
+            }, {
                 ptype: "gxp_selectedfeatureactions",
                 featureManager: "trace_featuremanager",
                 actions: [{
@@ -519,7 +503,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     width: 410,
                     height: 410
                 }
-            },{
+            }, {
                 ptype: "gxp_googlegeocoder",
                 outputTarget: "paneltbar",
                 outputConfig: {
