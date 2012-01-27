@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="FaultedEarth" default="dist" basedir=".">
+<project name="FaultedEarth-dev" default="dist" basedir=".">
 
     <description>
         FaultedEarth Build File

@@ -2,9 +2,9 @@
  * @requires FaultedEarth.js
  */
 
-FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
+FaultedEarth.FaultForm = Ext.extend(gxp.plugins.Tool, {
     
-    ptype: "app_simplegeometryform",
+    ptype: "app_faultform",
     
     /** api: config[featureManager]
      *  ``String`` id of the FeatureManager to add uploaded features to
@@ -34,7 +34,7 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
     autoActivate: false,
     
     init: function(target) {
-        FaultedEarth.SimpleGeometryForm.superclass.init.apply(this, arguments);
+        FaultedEarth.FaultForm.superclass.init.apply(this, arguments);
         
         this.sessionFids = [];
         var featureManager = target.tools[this.featureManager];
@@ -57,7 +57,7 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
     },
     
     addOutput: function(config) {
-        return FaultedEarth.SimpleGeometryForm.superclass.addOutput.call(this, {
+        return FaultedEarth.FaultForm.superclass.addOutput.call(this, {
             xtype: "form",
             labelWidth: 110,
             defaults: {
@@ -139,7 +139,7 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
     },
     
     activate: function() {
-        if (FaultedEarth.SimpleGeometryForm.superclass.activate.apply(this, arguments)) {
+        if (FaultedEarth.FaultForm.superclass.activate.apply(this, arguments)) {
             var featureManager = this.target.tools[this.featureManager];
             featureManager.setLayer();
             if (!this.layerRecord) {
@@ -184,7 +184,7 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
     },
     
     deactivate: function() {
-        if (FaultedEarth.SimpleGeometryForm.superclass.deactivate.apply(this, arguments)) {
+        if (FaultedEarth.FaultForm.superclass.deactivate.apply(this, arguments)) {
             this.target.tools[this.featureManager].featureStore.un("save", this.monitorSave, this);
         }
     },
@@ -318,4 +318,4 @@ FaultedEarth.SimpleGeometryForm = Ext.extend(gxp.plugins.Tool, {
     
 });
 
-Ext.preg(FaultedEarth.SimpleGeometryForm.prototype.ptype, FaultedEarth.SimpleGeometryForm);
+Ext.preg(FaultedEarth.FaultForm.prototype.ptype, FaultedEarth.FaultForm);
