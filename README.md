@@ -10,19 +10,8 @@ File uploads go into a temporary workspace on GeoServer. To make this work,
 GeoServer needs to be configured with a workspace named "temp" and a namespace
 uri of http://geonode.org/temporary.
 
-## Development
-
-Get set up for development with the following:
-
-    git clone git@github.com:opengeo/FaultedEarth.git
-    cd FaultedEarth
-    git submodule init
-    git submodule update
-
-To run the application in development mode, run
-
-    ant init # only needs to be run the first time
-    ant debug
+## Setup
+curl -L https://github.com/opengeo/readygxp/raw/master/readygxp.sh | sh -s myapp
 
 Navigate to http://localhost:8080/ to run the application in debug mode. By
 default, `ant debug` will proxy `/geoserver` to 
