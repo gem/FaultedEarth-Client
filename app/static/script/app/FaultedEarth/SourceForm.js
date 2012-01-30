@@ -66,6 +66,17 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                 anchor: "100%"
             },
             items: [{
+                xtype: "container",
+                layout: "hbox",
+                cls: "composite-wrap",
+                fieldLabel: "zoom",
+                items: [{
+                    id: this.id + "_tooltarget",
+                    xtype: "container",
+                    cls: "toolbar-spaced",
+                    layout: "toolbar"
+                }]
+            }, {
                 xtype: "textfield",
                 ref: "nameContains",
                 fieldLabel: "Search",

@@ -83,15 +83,9 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             "notes": "Notes",
             "fault_section_id": "Fault Section Id",
             "t_feature": "Trace Feature",
-	        "s_feature": "Site Feature",
-	        // custom field names for fault source form
+            "s_feature": "Site Feature",
+            // custom field names for fault source form
     	    "source_nm": "Fault Source Name",
-    	    "width_min": "Width Min",
-    	    "width_max": "Width Max",
-    	    "width_pref": "Width Pref",
-    	    "area_min": "Area Min",
-    	    "area_max": "Area Max",
-    	    "area_pref": "Area Pref",
     	    "rake_min": "Rake Min",
     	    "rake_max": "Rake Max",
     	    "rake_pref": "Rake Pref",
@@ -100,14 +94,65 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
     	    "length_min": "Length Min",
     	    "length_max": "Length Max",
     	    "length_pre": "Length Pref",
+    	    "length_pre": "Length Pref",
     	    "mag_min": "Magnitude Min",
     	    "mag_max": "Magnitude Max",
     	    "mag_pref": "Magnitude Pref",
     	    "mom_min": "Seismic Movement Min",
     	    "mom_max": "Seismic Movement Max",
     	    "mom_pref": "Seismic Movement Pref",
-    	    "fault_id": "Fault ID"
+    	    "fault_id": "Fault ID",
+    	    "width_min": "Width Min",
+    	    "width_max": "Width Max",
+            "width_pref": "Width Pref",
+            "area_min": "Area Min",
+            "area_max": "Area Max",
+            "area_pref": "Area Pref",
         };
+        
+        var tabs = new Ext.TabPanel({
+        	animCollapse: true,
+        	activeTab : 0,
+        	border: true,
+        	items: [{
+                title: 'Trace Grid',
+                items: [{
+                    id: "trace_featuregrid",
+                    layout: "fit",
+                    height: 180,
+                }],
+            }, {
+                title: 'Neotectonic Section Summary Grid',
+                items: [{
+                    id: "summary_featuregrid",
+                    layout: "fit",
+                    height: 180,
+                    autoScroll: true,
+                }]
+            }, {
+                title: 'Site Observations Grid',
+                items: [{
+                    id: "site_featuregrid",
+                    layout: "fit",
+                    height: 180,
+                    autoScroll: true,
+                }]
+            }, {
+                title: 'Fault Grid',
+                items: [{
+                    id: "fault_featuregrid",
+                    layout: "fit",
+                    height: 180,
+                }]
+            }, {
+                title: 'Fault Source Grid',
+                items: [{
+                    id: "source_featuregrid",
+                    layout: "fit",
+                    height: 180,
+                }]
+            }]
+    	});
         
         Ext.applyIf(config, {
             proxy: "/proxy?url=",
@@ -130,7 +175,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     id: "west",
                     region: "west",
                     layout: "accordion",
-                    width: 280,
+                    width: 295,
                     split: true,
                     collapsible: true,
                     collapseMode: "mini",
@@ -157,23 +202,26 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                         title: "Site Observation Form",
                         padding: 10
                     }, {
-                		id: "simple_geometry",
+                		id: "fault",
                 		title: "Neotectonic Fault Form",
                 		padding: 10
                     }, {
-                    	id: "source",
+                    	id: "source",   
                     	title: "Fault Source",
                     	padding: 10
                     }]
                 },
 		"map", {
-                    id: "featuregrid",
-                    layout: "fit",
+                    id: "tabs",
+                    autoHeight: true,
                     region: "south",
                     border: false,
                     height: 200,
                     split: true,
                     collapseMode: "mini",
+                    items:[
+                        tabs
+                    ]
                 }]
             }],
             
@@ -195,7 +243,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     iconCls: "icon-geoexplorer",
                     text: "Help",
                 }]
-            },{
+            }, {
                 ptype: "gxp_layertree",
                 outputTarget: "tree",
             }, {
@@ -206,47 +254,122 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 paging: false,
                 maxFeatures: 100
             }, {
+                ptype: "gxp_featuremanager",
+                id: "trace_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
+            }, {
                 ptype: "gxp_featuregrid",
                 alwaysDisplayOnMap: true,
                 selectOnMap: true,
+                id: "trace_grid",
                 displayMode: "selected",
-                featureManager: "featuremanager",
-                outputTarget: "featuregrid",
+                featureManager: "trace_featuremanager",
+                outputTarget: "trace_featuregrid",
                 outputConfig: {
-                    id: "grid",
+                    id: "trace_grid",
                     propertyNames: propertyNames
                 },
                 controlOptions: {
                     multiple: true,
                 }
             }, {
-                ptype: "app_summaryform",
-                id: "summaryform",
-                featureManager: "featuremanager",
-                featureEditor: "featureeditor",
-                outputTarget: "summary"
+                ptype: "gxp_featuremanager",
+                id: "summary_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
             }, {
-                ptype: "gxp_featureeditor",
-                id: "featureeditor",
-                featureManager: "featuremanager",
-                modifyOnly: true,
-                actionTarget: "summaryform_tooltarget",
-                //createFeatureActionText: "Draw",
-                editFeatureActionText: "Modify",
-				snappingAgent: "snapping-agent",
+                ptype: "gxp_featuregrid",
+                alwaysDisplayOnMap: true,
+                selectOnMap: true,
+                displayMode: "selected",
+                autoHeight: true,   
+                featureManager: "summary_featuremanager",
+                outputTarget: "summary_featuregrid",
                 outputConfig: {
+                    id: "summary_grid",
                     propertyNames: propertyNames
+                },
+                controlOptions: {
+                    multiple: true,
+                }
+            }, {
+                ptype: "gxp_featuremanager",
+                id: "site_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
+            }, {
+                ptype: "gxp_featuregrid",
+                alwaysDisplayOnMap: true,
+                selectOnMap: true,
+                displayMode: "selected",
+                featureManager: "site_featuremanager",
+                outputTarget: "site_featuregrid",
+                outputConfig: {
+                    id: "site_grid",
+                    propertyNames: propertyNames
+                },
+                controlOptions: {
+                    multiple: true,
+                }
+            }, {
+                ptype: "gxp_featuremanager",
+                id: "fault_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
+            }, {
+                ptype: "gxp_featuregrid",
+                alwaysDisplayOnMap: true,
+                selectOnMap: true,
+                displayMode: "selected",
+                featureManager: "fault_featuremanager",
+                outputTarget: "fault_featuregrid",
+                outputConfig: {
+                    id: "fault_grid",
+                    propertyNames: propertyNames
+                },
+                controlOptions: {
+                    multiple: true,
+                }
+            }, {
+                ptype: "gxp_featuremanager",
+                id: "source_featuremanager",
+                autoLoadFeatures: true,
+                autoSetLayer: false,
+                paging: false,
+                maxFeatures: 100
+            }, {
+                ptype: "gxp_featuregrid",
+                alwaysDisplayOnMap: true,
+                selectOnMap: true,
+                displayMode: "selected",
+                featureManager: "source_featuremanager",
+                outputTarget: "source_featuregrid",
+                outputConfig: {
+                    id: "source_grid",
+                    propertyNames: propertyNames
+                },
+                controlOptions: {
+                    multiple: true,
                 }
             }, {
                 ptype: "app_traceform",
                 id: "traceform",
-                featureManager: "featuremanager",
-                featureEditor: "featureeditor",
+                featureManager: "trace_featuremanager",
+                featureEditor: "trace_featureeditor",
                 outputTarget: "trace"
             }, {
                 ptype: "gxp_featureeditor",
-                id: "featureeditor",
-                featureManager: "featuremanager",
+                id: "trace_featureeditor",
+                featureManager: "trace_featuremanager",
                 actionTarget: "traceform_tooltarget",
                 autoLoadFeatures: true,
                 createFeatureActionText: "Draw",
@@ -256,15 +379,32 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     propertyNames: propertyNames
                 }
             }, {
+                ptype: "app_summaryform",
+                id: "summaryform",
+                featureManager: "summary_featuremanager",
+                featureEditor: "featureeditor",
+                outputTarget: "summary"
+            }, {
+                ptype: "gxp_featureeditor",
+                id: "featureeditor",
+                featureManager: "summary_featuremanager",
+                modifyOnly: true,
+                actionTarget: "summaryform_tooltarget",
+                editFeatureActionText: "Modify",
+                snappingAgent: "snapping-agent",
+                outputConfig: {
+                    propertyNames: propertyNames
+                }
+            }, {
                 ptype: "app_siteform",
                 id: "siteform",
-                featureManager: "featuremanager",
+                featureManager: "site_featuremanager",
                 featureEditor: "featureeditor",
                 outputTarget: "site"
             }, {
                 ptype: "gxp_featureeditor",
                 id: "featureeditor",
-                featureManager: "featuremanager",
+                featureManager: "site_featuremanager",
                 actionTarget: "siteform_tooltarget",
                 createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
@@ -274,38 +414,37 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     propertyNames: propertyNames
                 }
             }, {
-                ptype: "app_simplegeometryform",
-                id: "simplegeometryform",
-                featureManager: "featuremanager",
+                ptype: "app_faultform",
+                id: "faultform",
+                featureManager: "fault_featuremanager",
                 featureEditor: "featureeditor",
-                outputTarget: "simple_geometry"
+                outputTarget: "fault"
             }, {
                 ptype: "gxp_featureeditor",
                 id: "featureeditor",
-                featureManager: "featuremanager",
-                modifyOnly: true,
-                actionTarget: "simplegeometryform_tooltarget",
+                featureManager: "fault_featuremanager",
+                actionTarget: "faultform_tooltarget",
+                createFeatureActionText: "Draw",
                 editFeatureActionText: "Modify",
-		        snappingAgent: "snapping-agent",
-		        autoLoadFeatures: true,
+                snappingAgent: "snapping-agent",
+                autoLoadFeatures: true,
                 outputConfig: {
                     propertyNames: propertyNames
                 }
             }, {
                 ptype: "app_sourceform",
                 id: "sourceform",
-                featureManager: "featuremanager",
+                featureManager: "source_featuremanager",
                 featureEditor: "featureeditor",
-                outputTarget: "source"
+                outputTarget: "source",
             }, {
                 ptype: "gxp_featureeditor",
                 id: "featureeditor",
-                featureManager: "featuremanager",
+                featureManager: "source_featuremanager",
                 actionTarget: "sourceform_tooltarget",
-                createFeatureActionText: "Draw",
-                editFeatureActionText: "Modify",
-		        snappingAgent: "snapping-agent",
-		        autoLoadFeatures: true,
+                readOnly: true,
+                snappingAgent: "snapping-agent",
+                autoLoadFeatures: true,
                 outputConfig: {
                     propertyNames: propertyNames
                 }
@@ -314,11 +453,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
 	             outputConfig: {
 	                 width: 400
 	                 }
-	         },/*{
-        		ptype: "app_observations",
-        		featureManager: "featuremanager",
-        		outputTarget: "observations"
-        	    },*/{
+	         }, {
         		ptype: "gxp_legend",
         		outputTarget: "west",
         		outputConfig: {
@@ -340,18 +475,38 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             	actionTarget: "map.tbar"
             }, {
                 ptype: "gxp_zoomtoselectedfeatures",
-                featureManager: "featuremanager",
-                actionTarget: "map.tbar",
+                featureManager: "trace_featuremanager",
+                actionTarget: "traceform_tooltarget",
+                tooltip: "Zoom to selected closure"
+            }, {
+                ptype: "gxp_zoomtoselectedfeatures",
+                featureManager: "summary_featuremanager",
+                actionTarget: "summaryform_tooltarget",
+                tooltip: "Zoom to selected closure"
+            }, {
+                ptype: "gxp_zoomtoselectedfeatures",
+                featureManager: "site_featuremanager",
+                actionTarget: "siteform_tooltarget",
+                tooltip: "Zoom to selected closure"
+            }, {
+                ptype: "gxp_zoomtoselectedfeatures",
+                featureManager: "fault_featuremanager",
+                actionTarget: "faultform_tooltarget",
+                tooltip: "Zoom to selected closure"
+            }, {
+                ptype: "gxp_zoomtoselectedfeatures",
+                featureManager: "source_featuremanager",
+                actionTarget: "sourceform_tooltarget",
                 tooltip: "Zoom to selected closure"
             }, {
                 ptype: "gxp_selectedfeatureactions",
-                featureManager: "featuremanager",
+                featureManager: "trace_featuremanager",
                 actions: [{
                     menuText: "Feature context demo",
                     text: "Feature context demo",
                     urlTemplate: "/geoserver/wms/reflect?layers={layer}&width=377&height=328&format=application/openlayers&featureid={fid}"
                 }],
-                actionTarget: ["grid.contextMenu", "grid.bbar"],
+                actionTarget: ["trace_grid.contextMenu",  "trace_grid.bbar"],
                 outputConfig: {
                     width: 410,
                     height: 410
@@ -376,3 +531,5 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
     }
 
 });
+
+
