@@ -499,19 +499,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 actionTarget: "sourceform_tooltarget",
                 tooltip: "Zoom to selected closure"
             }, {
-                ptype: "gxp_selectedfeatureactions",
-                featureManager: "trace_featuremanager",
-                actions: [{
-                    menuText: "Feature context demo",
-                    text: "Feature context demo",
-                    urlTemplate: "/geoserver/wms/reflect?layers={layer}&width=377&height=328&format=application/openlayers&featureid={fid}"
-                }],
-                actionTarget: ["trace_grid.contextMenu",  "trace_grid.bbar"],
-                outputConfig: {
-                    width: 410,
-                    height: 410
-                }
-            }, {
                 ptype: "gxp_googlegeocoder",
                 outputTarget: "paneltbar",
                 outputConfig: {
