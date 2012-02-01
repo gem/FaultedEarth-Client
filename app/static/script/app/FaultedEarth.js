@@ -226,7 +226,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             }],
             
             tools: [{
-                actionTarget: {target: "paneltbar", index: 0},
+                actionTarget: {target: "map.tbar", index: 0},
                 outputAction: 0,
                 outputConfig: {
                     title: "Help",
