@@ -226,7 +226,7 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
             }],
             
             tools: [{
-                actionTarget: {target: "map.tbar", index: 0},
+                actionTarget: {target: "paneltbar", index: 0},
                 outputAction: 0,
                 outputConfig: {
                     title: "Help",
@@ -449,11 +449,6 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                     propertyNames: propertyNames
                 }
             }, {
-		         ptype: "gxp_wmsgetfeatureinfo",
-	             outputConfig: {
-	                 width: 400
-	                 }
-	         }, {
         		ptype: "gxp_legend",
         		outputTarget: "west",
         		outputConfig: {
@@ -461,18 +456,30 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
         		    autoScroll: true
         		}
         	}, {
+                ptype: "gxp_googlegeocoder",
+                outputTarget: "paneltbar",
+                outputConfig: {
+                    emptyText: "Search for a location ..."
+                }
+            }, {
+		         ptype: "gxp_wmsgetfeatureinfo",
+		         actionTarget: "paneltbar",
+	             outputConfig: {
+	                 width: 400
+	                 }
+	         }, {
             	ptype: "gxp_measure",
-            	actionTarget: {target: "map.tbar", index: 6},
+            	actionTarget: {target: "paneltbar", index: 6},
             	toggleGroup: "main"
             }, {
             	ptype: "gxp_zoomtoextent",
-            	actionTarget: "map.tbar"
+            	actionTarget: "paneltbar"
             }, {
             	ptype: "gxp_zoom",
-            	actionTarget: "map.tbar"
+            	actionTarget: "paneltbar"
             }, {
             	ptype: "gxp_navigationhistory",
-            	actionTarget: "map.tbar"
+            	actionTarget: "paneltbar"
             }, {
                 ptype: "gxp_zoomtoselectedfeatures",
                 featureManager: "trace_featuremanager",
@@ -499,17 +506,11 @@ FaultedEarth = Ext.extend(gxp.Viewer, {
                 actionTarget: "sourceform_tooltarget",
                 tooltip: "Zoom to selected closure"
             }, {
-                ptype: "gxp_googlegeocoder",
-                outputTarget: "paneltbar",
-                outputConfig: {
-                    emptyText: "Search for a location ..."
-                }
-            }, {
             	ptype: "gxp_snappingagent",
             	id: "snapping-agent",
             	targets: [{
             		source: "local",
-            		name: "geonode:trace"
+            		name: "geonode:observations_trace"
             	}]
     	     }]
         });
