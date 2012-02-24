@@ -3,26 +3,26 @@
  */
 
 FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
-    
+
     ptype: "app_observations",
-    
+
     /** api: config[featureManager]
      *  ``String`` id of the FeatureManager to add uploaded features to
      */
-    
+
     layerRecord: null,
-    
+
     observationId: null,
-    
+
     filter: null,
-    
+
     autoActivate: false,
-    
-    init: function(target) {
+
+    init: function (target) {
         var featureManager = target.tools[this.featureManager];
-        
+
         featureManager.featureLayer.events.on({
-            "featureselected": function(e) {
+            "featureselected": function (e) {
                 if (!e.feature.fid) {
                     return;
                 }
@@ -39,7 +39,7 @@ FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
                     );
                 }
             },
-            "featureunselected": function(e) {
+            "featureunselected": function (e) {
                 if (featureManager.layerRecord.get("name") == "geonode:observations_observations") {
                     this.setIFrameUrl(
                         "/observations/obsform/new/summary_id/" + this.target.summaryId.split(".").pop()
@@ -50,7 +50,7 @@ FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
             },
             scope: this
         });
-        
+
         this.filter = new OpenLayers.Filter.Comparison({
             property: "summary_id",
             value: -1,
@@ -59,9 +59,9 @@ FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
 
         FaultedEarth.Observations.superclass.init.apply(this, arguments);
     },
-    
-    addOutput: function(config) {
-        
+
+    addOutput: function (config) {
+
         function adjustIframeSize(cmp) {
             cmp.body.setHeight(cmp.ownerCt.getHeight() - cmp.el.getOffsetsTo(cmp.ownerCt.body)[1]);
             cmp.body.setWidth(cmp.ownerCt.getWidth());
@@ -114,7 +114,7 @@ FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
                     style: {border: "0px none"}
                 },
                 listeners: {
-                    "added": function(ct, cmp) {
+                    "added": function (ct, cmp) {
                         ct.on({
                             "resize": adjustIframeSize,
                             "afterlayout": adjustIframeSize
@@ -123,11 +123,11 @@ FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
                 }
             }],
             listeners: {
-                "added": function(cmp, ct) {
+                "added": function (cmp, ct) {
                     ct.disable();
                     ct.on({
-                        "expand": function() { this.activate(); },
-                        "collapse": function() { this.deactivate(); },
+                        "expand": function () { this.activate(); },
+                        "collapse": function () { this.deactivate(); },
                         scope: this
                     });
                 },
@@ -135,8 +135,8 @@ FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
             }
         });
     },
-    
-    activate: function() {
+
+    activate: function () {
         if (FaultedEarth.Observations.superclass.activate.apply(this, arguments)) {
             var featureManager = this.target.tools[this.featureManager];
             featureManager.setLayer();
@@ -144,19 +144,19 @@ FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
                 this.target.createLayerRecord({
                     name: "geonode:observations_observations",
                     source: "local"
-                }, function(record) {
+                }, function (record) {
                     this.layerRecord = record;
                     featureManager.setLayer(record);
                 }, this);
             } else {
                 featureManager.setLayer(this.layerRecord);
             }
-            featureManager.on("layerchange", function(mgr, rec) {
+            featureManager.on("layerchange", function (mgr, rec) {
                 if (rec === this.layerRecord) {
                     mgr.loadFeatures(this.filter);
                     mgr.featureStore.on({
-                        "load": function() {
-                            this.observationId && window.setTimeout((function() {
+                        "load": function () {
+                            this.observationId && window.setTimeout((function () {
                                 var feature = mgr.featureLayer.getFeatureByFid(this.observationId);
                                 if (feature && feature.layer.selectedFeatures.indexOf(feature) == -1) {
                                     feature.layer.selectedFeatures.push(feature);
@@ -173,14 +173,14 @@ FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
             "/observations/obsform/new/summary_id/" + this.target.summaryId.split(".").pop()
         );
     },
-    
-    deactivate: function() {
+
+    deactivate: function () {
         if (FaultedEarth.Observations.superclass.deactivate.apply(this, arguments)) {
             this.output[0].ownerCt.disable();
         }
     },
-    
-    setIFrameUrl: function(url) {
+
+    setIFrameUrl: function (url) {
         if (!this.active) {
             return;
         }
@@ -190,8 +190,8 @@ FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
             (iFrame.rendered ? iFrame.body.dom : iFrame.bodyCfg).src = url;
         }
     },
-    
-    updateFilter: function(field, rec) {
+
+    updateFilter: function (field, rec) {
         var value = rec.get("name");
         this.target.mapPanel.map.events.unregister("moveend", this, this.updateBBOX);
         var filter;
@@ -228,14 +228,14 @@ FaultedEarth.Observations = Ext.extend(gxp.plugins.Tool, {
         this.filter = filter;
         this.target.tools[this.featureManager].loadFeatures(filter);
     },
-    
-    updateBBOX: function() {
+
+    updateBBOX: function () {
         this.target.tools[this.featureManager].loadFeatures(new OpenLayers.Filter.Spatial({
             value: this.target.mapPanel.map.getExtent(),
             type: OpenLayers.Filter.Spatial.BBOX
         }));
     }
-    
+
 });
 
 Ext.preg(FaultedEarth.Observations.prototype.ptype, FaultedEarth.Observations);

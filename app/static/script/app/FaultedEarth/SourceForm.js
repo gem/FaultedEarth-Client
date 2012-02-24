@@ -3,17 +3,17 @@
  */
 
 FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
-    
+
     ptype: "app_sourceform",
-    
+
     /** api: config[featureManager]
      *  ``String`` id of the FeatureManager to add uploaded features to
      */
-    
+
     /** api: config[featureEditor]
      *  ``String`` id of the FeatureEditor to modify uploaded features
      */
-    
+
     /** api: config[temporaryWorkspace]
      *  ``String`` temporary GeoServer workspace for shapefile uploads.
      *  Default is "temp".
@@ -25,21 +25,21 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
      *  shapefile uploads. Default is "http://geonode.org/temporary".
      */
     temporaryWorkspaceNamespaceUri: "http://geonode.org/temporary",
-    
+
     /** private: property[sessionFids]
      *  ``Array`` fids of features added/modified in this session
      */
     sessionFids: null,
-    
+
     autoActivate: false,
-    
-    init: function(target) {
+
+    init: function (target) {
         FaultedEarth.SourceForm.superclass.init.apply(this, arguments);
-        
+
         this.sessionFids = [];
         var featureManager = target.tools[this.featureManager];
         featureManager.featureLayer.events.on({
-            "featureselected": function(e) {
+            "featureselected": function (e) {
                 if (!e.feature.fid) {
                     return;
                 }
@@ -48,7 +48,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                     this.sessionFids.push(e.feature.fid.split('.')[1]);
                 }
             },
-            "featureunselected": function(e) {
+            "featureunselected": function (e) {
                 if (this.active && featureManager.layerRecord.get("name") == "geonode:observations_faultsource") {
                     this.sessionFids = [];
                     this.target.summaryId = null;
@@ -57,8 +57,8 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
             scope: this
         });
     },
-    
-    addOutput: function(config) {
+
+    addOutput: function (config) {
         return FaultedEarth.SourceForm.superclass.addOutput.call(this, {
             xtype: "form",
             labelWidth: 110,
@@ -99,32 +99,31 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                     xtype: "button",
                     text: "Export",
                     iconCls: "icon-layer-switcher",
-                    handler: function() {
+                    handler: function () {
                         var featureManager = this.target.tools[this.featureManager];
                         Ext.Ajax.request({
                             method: "PUT",
                             url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_fault_source_url,
                             params: Ext.encode(this.sessionFids),
-                            success: function(response, opts) {
+                            success: function (response, opts) {
                                 alert('Fault Source record recorded');
                                 this.sessionFids = [];
                             },
-                            failure: function(response, opts){
+                            failure: function (response, opts){
                                 alert('Fault Source record NOT recorded');
                             },
-                            
+
                             scope: this
                         });
-
                     },
                     scope: this
                 }]
-             }],
+            }],
             listeners: {
-                "added": function(cmp, ct) {
+                "added": function (cmp, ct) {
                     ct.on({
-                        "expand": function() { this.activate(); },
-                        "collapse": function() { this.deactivate(); },
+                        "expand": function () { this.activate(); },
+                        "collapse": function () { this.deactivate(); },
                         scope: this
                     });
                 },
@@ -132,8 +131,8 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
             }
         });
     },
-    
-    activate: function() {
+
+    activate: function () {
         if (FaultedEarth.SourceForm.superclass.activate.apply(this, arguments)) {
             var featureManager = this.target.tools[this.featureManager];
             featureManager.setLayer();
@@ -141,7 +140,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                 this.target.createLayerRecord({
                     name: "geonode:observations_faultsource",
                     source: "local"
-                }, function(record) {
+                }, function (record) {
                     this.layerRecord = record;
                     featureManager.setLayer(record);
                 }, this);
@@ -149,9 +148,9 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                 featureManager.setLayer(this.layerRecord);
             }
             this.output[0].nameContains.setValue("");
-            featureManager.on("layerchange", function(mgr, layer, attr) {
+            featureManager.on("layerchange", function (mgr, layer, attr) {
                 mgr.featureStore.on({
-                    "save": function(store, batch, data) {
+                    "save": function (store, batch, data) {
                         var fid;
                         for (var action in data) {
                             for (var i=data[action].length-1; i>=0; --i) {
@@ -163,8 +162,8 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                             }
                         }
                     },
-                    "load": function() {
-                        this.target.summaryId && window.setTimeout((function() {
+                    "load": function () {
+                        this.target.summaryId && window.setTimeout((function () {
                             var feature = mgr.featureLayer.getFeatureByFid(this.target.summaryId);
                             if (feature && feature.layer.selectedFeatures.indexOf(feature) == -1) {
                                 feature.layer.selectedFeatures.push(feature);
@@ -177,14 +176,14 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
             }, this, {single: true});
         }
     },
-    
-    deactivate: function() {
+
+    deactivate: function () {
         if (FaultedEarth.SourceForm.superclass.deactivate.apply(this, arguments)) {
             this.target.tools[this.featureManager].featureStore.un("save", this.monitorSave, this);
         }
     },
-    
-    updateFilter: function() {
+
+    updateFilter: function () {
         var form = this.output[0];
         var filters = [];
         form.nameContains.getValue() && filters.push(
@@ -206,7 +205,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
         this.target.tools[this.featureManager].loadFeatures(filter);
     },
 
-    showUploadWindow: function() {
+    showUploadWindow: function () {
         var uploadWindow = new Ext.Window({
             title: "Import Faults",
             width: 250,
@@ -235,7 +234,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                     fieldLabel: "File",
                     allowBlank: false,
                     listeners: {
-                        "fileselected": function(field, file) {
+                        "fileselected": function (field, file) {
                             field.ownerCt.uploadButton.enable();
                         }
                     }
@@ -245,7 +244,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
                     text: "Upload",
                     ref: "../uploadButton",
                     disabled: true,
-                    handler: function() {
+                    handler: function () {
                         var file = uploadWindow.form.fileField.fileInput.dom.files[0];
                         Ext.Ajax.request({
                             method: "PUT",
@@ -269,7 +268,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
         uploadWindow.show();
     },
 
-    handleUpload: function(response, options, fileName, uploadWindow) {
+    handleUpload: function (response, options, fileName, uploadWindow) {
         uploadWindow.close();
         var fileParts = fileName.split(".");
         fileParts.pop();
@@ -282,7 +281,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
             featureNS: this.temporaryWorkspaceNamespaceUri,
             outputFormat: "GML2"
         }).read({
-            callback: function(response) {
+            callback: function (response) {
                 var extent = new OpenLayers.Bounds();
                 var features = response.features, feature, date;
                 for (var i=features.length-1; i>=0; --i) {
@@ -310,7 +309,7 @@ FaultedEarth.SourceForm = Ext.extend(gxp.plugins.Tool, {
         });
         //TODO remove uploaded layer/store/style or call GeoNode updatelayers
     }
-    
+
 });
 
 Ext.preg(FaultedEarth.SourceForm.prototype.ptype, FaultedEarth.SourceForm);

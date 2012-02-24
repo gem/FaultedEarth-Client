@@ -3,17 +3,17 @@
  */
 
 FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
-    
+
     ptype: "app_summaryform",
-    
+
     /** api: config[featureManager]
      *  ``String`` id of the FeatureManager to add uploaded features to
      */
-    
+
     /** api: config[featureEditor]
      *  ``String`` id of the FeatureEditor to modify uploaded features
      */
-    
+
     /** api: config[temporaryWorkspace]
      *  ``String`` temporary GeoServer workspace for shapefile uploads.
      *  Default is "temp".
@@ -25,22 +25,22 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
      *  shapefile uploads. Default is "http://geonode.org/temporary".
      */
     temporaryWorkspaceNamespaceUri: "http://geonode.org/temporary",
-    
+
     /** private: property[sessionFids]
      *  ``Array`` fids of features added/modified in this session
      */
     sessionFids: [],
-    
+
     autoActivate: false,
-    
-    init: function(target) {
+
+    init: function (target) {
         FaultedEarth.SummaryForm.superclass.init.apply(this, arguments);
-        
+
         this.sessionFids = [];
         this.fault= {};
         var featureManager = target.tools[this.featureManager];
         featureManager.featureLayer.events.on({
-            "featureselected": function(e) {
+            "featureselected": function (e) {
                 if (!e.feature.fid) {
                     return;
                 }
@@ -49,7 +49,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     this.sessionFids.push(e.feature.fid.split('.')[1]);
                 }
             },
-            "featureunselected": function(e) {
+            "featureunselected": function (e) {
                 if (this.active && featureManager.layerRecord.get("name") == "geonode:fault_section_view") {
                     this.sessionFids = [];
                     this.target.summaryId = null;
@@ -58,8 +58,8 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
             scope: this
         });
     },
-    
-    addOutput: function(config) {
+
+    addOutput: function (config) {
         return FaultedEarth.SummaryForm.superclass.addOutput.call(this, {
             xtype: "form",
             labelWidth: 110,
@@ -99,10 +99,10 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 fieldLabel: "Neotectonic Fault Name",
                 //validationDelay: 500,
                 listeners: {
-                        "valid": this.updateFaultSectionName,
-                        scope: this
+                    "valid": this.updateFaultSectionName,
+                    scope: this
                 }
-             }, {
+            }, {
                 xtype: "container",
                 layout: "hbox",
                 fieldLabel: "Join sections",
@@ -110,18 +110,18 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     xtype: "button",
                     text: "Join",
                     iconCls: "icon-layer-switcher",
-                    handler: function() {
+                    handler: function () {
                         var featureManager = this.target.tools[this.featureManager];
                         this.sessionFids.push(this.fault);
                         Ext.Ajax.request({
                             method: "PUT",
                             url: this.target.localGeoNodeUrl + this.target.localHostname + this.current_fault_section_url,
                             params: Ext.encode(this.sessionFids),
-                            success: function(response, opts) {
+                            success: function (response, opts) {
                                 alert('Fault created');
                                 this.sessionFids = [];
                             },
-                            failure: function(response, opts){
+                            failure: function (response, opts){
                                 alert('Failed to create the Fault');
                             },
 
@@ -130,13 +130,13 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
 
                     },
                     scope: this
-                    }]
+                }]
             }],
             listeners: {
-                "added": function(cmp, ct) {
+                "added": function (cmp, ct) {
                     ct.on({
-                        "expand": function() { this.activate(); },
-                        "collapse": function() { this.deactivate(); },
+                        "expand": function () { this.activate(); },
+                        "collapse": function () { this.deactivate(); },
                         scope: this
                     });
                 },
@@ -144,13 +144,13 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
             }
         });
     },
-    updateFaultSectionName: function() {
+    updateFaultSectionName: function () {
         var form = this.output[0]
         if (form.fault.getValue()) {
-                this.fault['name'] = form.fault.getValue()
+            this.fault['name'] = form.fault.getValue()
         }
     },
-    activate: function() {
+    activate: function () {
         if (FaultedEarth.SummaryForm.superclass.activate.apply(this, arguments)) {
             var featureManager = this.target.tools[this.featureManager];
             featureManager.setLayer();
@@ -158,7 +158,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 this.target.createLayerRecord({
                     name: "geonode:fault_section_view",
                     source: "local"
-                }, function(record) {
+                }, function (record) {
                     this.layerRecord = record;
                     featureManager.setLayer(record);
                 }, this);
@@ -166,9 +166,9 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                 featureManager.setLayer(this.layerRecord);
             }
             this.output[0].nameContains.setValue("");
-            featureManager.on("layerchange", function(mgr, rec) {
+            featureManager.on("layerchange", function (mgr, rec) {
                 mgr.featureStore.on({
-                    "save": function(store, batch, data) {
+                    "save": function (store, batch, data) {
                         var fid;
                         for (var action in data) {
                             for (var i=data[action].length-1; i>=0; --i) {
@@ -180,8 +180,8 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                             }
                         }
                     },
-                    "load": function() {
-                        this.target.summaryId && window.setTimeout((function() {
+                    "load": function () {
+                        this.target.summaryId && window.setTimeout((function () {
                             var feature = mgr.featureLayer.getFeatureByFid(this.target.summaryId);
                             if (feature && feature.layer.selectedFeatures.indexOf(feature) == -1) {
                                 feature.layer.selectedFeatures.push(feature);
@@ -194,14 +194,14 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
             }, this, {single: true});
         }
     },
-    
-    deactivate: function() {
+
+    deactivate: function () {
         if (FaultedEarth.SummaryForm.superclass.deactivate.apply(this, arguments)) {
             this.target.tools[this.featureManager].featureStore.un("save", this.monitorSave, this);
         }
     },
-    
-    updateFilter: function() {
+
+    updateFilter: function () {
         var form = this.output[0];
         var filters = [];
         form.nameContains.getValue() && filters.push(
@@ -222,8 +222,8 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
         }
         this.target.tools[this.featureManager].loadFeatures(filter);
     },
-    
-    showUploadWindow: function() {
+
+    showUploadWindow: function () {
         var uploadWindow = new Ext.Window({
             title: "Import Neotectonic faults",
             width: 250,
@@ -252,7 +252,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     fieldLabel: "File",
                     allowBlank: false,
                     listeners: {
-                        "fileselected": function(field, file) {
+                        "fileselected": function (field, file) {
                             field.ownerCt.uploadButton.enable();
                         }
                     }
@@ -262,7 +262,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
                     text: "Upload",
                     ref: "../uploadButton",
                     disabled: true,
-                    handler: function() {
+                    handler: function () {
                         var file = uploadWindow.form.fileField.fileInput.dom.files[0];
                         Ext.Ajax.request({
                             method: "PUT",
@@ -286,7 +286,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
         uploadWindow.show();
     },
 
-    handleUpload: function(response, options, fileName, uploadWindow) {
+    handleUpload: function (response, options, fileName, uploadWindow) {
         uploadWindow.close();
         var fileParts = fileName.split(".");
         fileParts.pop();
@@ -299,7 +299,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
             featureNS: this.temporaryWorkspaceNamespaceUri,
             outputFormat: "GML2"
         }).read({
-            callback: function(response) {
+            callback: function (response) {
                 var extent = new OpenLayers.Bounds();
                 var features = response.features, feature, date;
                 for (var i=features.length-1; i>=0; --i) {
@@ -327,7 +327,7 @@ FaultedEarth.SummaryForm = Ext.extend(gxp.plugins.Tool, {
         });
         //TODO remove uploaded layer/store/style or call GeoNode updatelayers
     }
-    
+
 });
 
 Ext.preg(FaultedEarth.SummaryForm.prototype.ptype, FaultedEarth.SummaryForm);
